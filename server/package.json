@@ -1,0 +1,30 @@
+{
+  "name": "ahsm-server",
+  "version": "0.0.1",
+  "description": "Automatic hand sanitising machine server for usage data visualisation and api to communicate with sanitising machine (ESP32)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gerald-tetteh/sanitiser-capstone.git"
+  },
+  "keywords": [
+    "Express",
+    "Node",
+    "React",
+    "MongoDB",
+    "Typescript",
+    "API",
+    "REST",
+    "Ashesi",
+    "Capstone"
+  ],
+  "author": "Gerald Addo-Tetteh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gerald-tetteh/sanitiser-capstone/issues"
+  },
+  "homepage": "https://github.com/gerald-tetteh/sanitiser-capstone#readme"
+}
