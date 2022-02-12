@@ -1,15 +1,21 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Server - sanitizer-level-dao.ts
+ */
+
 import { Collection, ObjectId } from "mongodb";
-import mongoClient from "./db_connect";
+import { DATABASE_NAME, SL_COLLECTION } from "../utils/constants";
+import mongoClient from "./db-connect";
 
 export interface SanitizerLevel {
   /**
    * Sanitizer level collection interface
    *
-   * @param id - ID of document
+   * @param _id - ID of document (optional)
    * @param percentage - Percentage of the sanitizer in the container.
    * @param date - Date the data was collected
    */
-  id: number;
   percentage: number;
   date: Date;
 }
@@ -28,18 +34,18 @@ class SanitizerLevelDAO {
       this.db = sanitizerLevelDB;
     } else {
       this.db = mongoClient
-        .db("sanitizer-usage")
-        .collection<SanitizerLevel>("sanitizer-level");
+        .db(DATABASE_NAME)
+        .collection<SanitizerLevel>(SL_COLLECTION);
     }
   }
 
-  getLevelHistory(this: SanitizerLevelDAO) {
+  async getLevelHistory(this: SanitizerLevelDAO) {
     /**
      * Returns all available sanitizer level entries
      */
     return this.db.find({});
   }
-  filterByData(this: SanitizerLevelDAO, date: Date) {
+  async filterByData(this: SanitizerLevelDAO, date: Date) {
     /**
      * Returns all sanitizer level reading for a particular day
      *
@@ -49,21 +55,21 @@ class SanitizerLevelDAO {
     endDate.setDate(date.getDate() + 1);
     return this.db.find({ date: { $gte: date, $lt: endDate } });
   }
-  insert(this: SanitizerLevelDAO, sanitizerLevel: SanitizerLevel) {
+  async insert(this: SanitizerLevelDAO, sanitizerLevel: SanitizerLevel) {
     /**
      * Insert sanitizer level into collection
      *
      * @param sanitizerLevel - Sanitizer level object
      */
-    this.db.insertOne(sanitizerLevel);
+    await this.db.insertOne(sanitizerLevel);
   }
-  deleteById(this: SanitizerLevelDAO, id: number) {
+  async deleteById(this: SanitizerLevelDAO, id: ObjectId) {
     /**
      * Deletes sanitizer level entry from collection
      *
      * @param id - ID of document to delete
      */
-    this.db.deleteOne({ _id: new ObjectId(id) });
+    await this.db.deleteOne({ _id: id });
   }
 }
 
