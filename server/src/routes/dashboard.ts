@@ -5,12 +5,16 @@
  */
 
 import express from "express";
-import { getLevelHistory, getUsageHistory } from "../controllers/dashboard";
+import {
+  getLevelHistory,
+  getNotifications,
+  getUsageHistory,
+} from "../controllers/dashboard";
 
 const router = express.Router();
 
 router.get("/level-history", getLevelHistory);
 router.get("/usage-history", getUsageHistory);
-router.get("/notifications");
+router.get("/notifications", getNotifications);
 
 export default router;

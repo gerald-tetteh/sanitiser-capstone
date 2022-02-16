@@ -45,7 +45,14 @@ class NotificationDAO {
     }
   }
 
-  async getAllNotifications(this: NotificationDAO) {}
+  /**
+   * Returns all available notifications
+   *
+   * @returns A promise for the notifications array
+   */
+  async getAllNotifications(this: NotificationDAO) {
+    return this.db.find({}).toArray();
+  }
   /**
    * Inserts a new document into the notification collection
    *

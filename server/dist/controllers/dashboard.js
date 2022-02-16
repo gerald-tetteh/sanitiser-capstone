@@ -17,11 +17,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsageHistory = exports.getLevelHistory = void 0;
+exports.getNotifications = exports.getUsageHistory = exports.getLevelHistory = void 0;
 const daily_usage_dao_1 = __importDefault(require("../db/daily-usage-dao"));
+const notification_dao_1 = __importDefault(require("../db/notification-dao"));
 const sanitizer_level_dao_1 = __importDefault(require("../db/sanitizer-level-dao"));
 const sanitizerLevelDao = new sanitizer_level_dao_1.default();
 const dailyUsageDao = new daily_usage_dao_1.default();
+const notificationsDao = new notification_dao_1.default();
 /**
  * Parse the query parameters from the request object
  *
@@ -79,3 +81,17 @@ const getUsageHistory = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.getUsageHistory = getUsageHistory;
+/**
+ * Sends json response of available notifications
+ */
+const getNotifications = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const notifications = yield notificationsDao.getAllNotifications();
+        res.status(200).json(notifications);
+    }
+    catch (e) {
+        const error = new Error(e.message);
+        next(error);
+    }
+});
+exports.getNotifications = getNotifications;

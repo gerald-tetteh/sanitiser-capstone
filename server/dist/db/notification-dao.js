@@ -41,8 +41,15 @@ class NotificationDAO {
                 .collection(constants_1.NT_COLLECTION);
         }
     }
+    /**
+     * Returns all available notifications
+     *
+     * @returns A promise for the notifications array
+     */
     getAllNotifications() {
-        return __awaiter(this, void 0, void 0, function* () { });
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.db.find({}).toArray();
+        });
     }
     /**
      * Inserts a new document into the notification collection
