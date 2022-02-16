@@ -37,14 +37,32 @@ class DailyUsageDAO {
     }
     /**
      * Returns all tha available sanitizer usage history
+     *
+     * @param page - the current page of data to return defaults to 1
+     * @param resultsCount - the number of results to show per page defaults to 20
+     * @param startDate - The starting date of the filter
+     * @param endDate - The end date of the filter
+     * @returns A promise - An array of the usage data
      */
-    getUsageHistory() {
+    getUsageHistory(page = 1, resultsCount = 20, startDate, endDate) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.db.find({});
+            let filter = {};
+            if (startDate && endDate) {
+                if (startDate > endDate) {
+                    throw new Error("End date must be greater than or equal to start date");
+                }
+                // increase end date if equal to start date
+                if (startDate.toString() === endDate.toString()) {
+                    endDate.setDate(endDate.getDate() + 1);
+                }
+                filter = { date: { $gte: startDate, $lte: endDate } };
+            }
+            const cursor = this.db
+                .find(filter)
+                .skip(resultsCount * (page - 1))
+                .limit(resultsCount);
+            return cursor.toArray();
         });
-    }
-    filterUsageHistory() {
-        return __awaiter(this, void 0, void 0, function* () { });
     }
     /**
      * Inserts a new document into the daily usage collection
@@ -67,6 +85,8 @@ class DailyUsageDAO {
     }
     /**
      * Delete usage data entry
+     *
+     * @param id - ID of document to delete
      */
     deleteById(id) {
         return __awaiter(this, void 0, void 0, function* () {

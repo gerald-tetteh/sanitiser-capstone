@@ -28,7 +28,6 @@ let sanitizerLevelDB: Collection<SanitizerLevel>;
  */
 class SanitizerLevelDAO {
   private db: Collection<SanitizerLevel>;
-
   constructor() {
     if (sanitizerLevelDB) {
       this.db = sanitizerLevelDB;

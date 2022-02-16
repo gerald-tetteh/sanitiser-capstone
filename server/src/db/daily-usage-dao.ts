@@ -4,7 +4,7 @@
  * AHSM Server - daily-usage-dao.ts
  */
 
-import { Collection, ObjectId } from "mongodb";
+import { Collection, ObjectId, Filter } from "mongodb";
 import { DATABASE_NAME, DU_COLLECTION } from "../utils/constants";
 import mongoClient from "./db-connect";
 
@@ -40,11 +40,37 @@ class DailyUsageDAO {
 
   /**
    * Returns all tha available sanitizer usage history
+   *
+   * @param page - the current page of data to return defaults to 1
+   * @param resultsCount - the number of results to show per page defaults to 20
+   * @param startDate - The starting date of the filter
+   * @param endDate - The end date of the filter
+   * @returns A promise - An array of the usage data
    */
-  async getUsageHistory(this: DailyUsageDAO) {
-    return this.db.find({});
+  async getUsageHistory(
+    this: DailyUsageDAO,
+    page = 1,
+    resultsCount = 20,
+    startDate?: Date,
+    endDate?: Date
+  ) {
+    let filter: Filter<DailyUsage> = {};
+    if (startDate && endDate) {
+      if (startDate > endDate) {
+        throw new Error("End date must be greater than or equal to start date");
+      }
+      // increase end date if equal to start date
+      if (startDate.toString() === endDate.toString()) {
+        endDate.setDate(endDate.getDate() + 1);
+      }
+      filter = { date: { $gte: startDate, $lte: endDate } };
+    }
+    const cursor = this.db
+      .find(filter)
+      .skip(resultsCount * (page - 1))
+      .limit(resultsCount);
+    return cursor.toArray();
   }
-  async filterUsageHistory(this: DailyUsageDAO) {}
   /**
    * Inserts a new document into the daily usage collection
    * or updates a document if the date already exists
@@ -66,6 +92,8 @@ class DailyUsageDAO {
   }
   /**
    * Delete usage data entry
+   *
+   * @param id - ID of document to delete
    */
   async deleteById(this: DailyUsageDAO, id: ObjectId) {
     await this.db.deleteOne({ _id: id });

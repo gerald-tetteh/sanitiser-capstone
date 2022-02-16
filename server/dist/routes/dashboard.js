@@ -12,6 +12,6 @@ const express_1 = __importDefault(require("express"));
 const dashboard_1 = require("../controllers/dashboard");
 const router = express_1.default.Router();
 router.get("/level-history", dashboard_1.getLevelHistory);
-router.get("/usage-history");
+router.get("/usage-history", dashboard_1.getUsageHistory);
 router.get("/notifications");
 exports.default = router;
