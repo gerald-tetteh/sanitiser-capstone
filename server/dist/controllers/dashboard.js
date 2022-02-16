@@ -25,8 +25,10 @@ const sanitizerLevelDao = new sanitizer_level_dao_1.default();
  * based on the query parameters.
  */
 const getLevelHistory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    let page = undefined;
-    let resultsCount = undefined;
+    let page;
+    let resultsCount;
+    let startDate;
+    let endDate;
     try {
         if (req.query.page) {
             page = Number(req.query.page);
@@ -34,7 +36,13 @@ const getLevelHistory = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         if (req.query.resultsCount) {
             resultsCount = Number(req.query.resultsCount);
         }
-        const levelHistory = yield sanitizerLevelDao.getLevelHistory(page, resultsCount);
+        if (req.query.startDate) {
+            startDate = new Date(req.query.startDate);
+        }
+        if (req.query.endDate) {
+            endDate = new Date(req.query.endDate);
+        }
+        const levelHistory = yield sanitizerLevelDao.getLevelHistory(page, resultsCount, startDate, endDate);
         res.status(200).json(levelHistory);
     }
     catch (e) {

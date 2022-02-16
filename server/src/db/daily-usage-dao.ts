@@ -37,6 +37,7 @@ class DailyUsageDAO {
         .collection<DailyUsage>(DU_COLLECTION);
     }
   }
+
   /**
    * Returns all tha available sanitizer usage history
    */

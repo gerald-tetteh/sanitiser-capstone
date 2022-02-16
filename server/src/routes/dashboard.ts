@@ -10,5 +10,7 @@ import { getLevelHistory } from "../controllers/dashboard";
 const router = express.Router();
 
 router.get("/level-history", getLevelHistory);
+router.get("/usage-history");
+router.get("/notifications");
 
 export default router;
