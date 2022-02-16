@@ -20,6 +20,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("../utils/constants");
 const db_connect_1 = __importDefault(require("./db-connect"));
 let sanitizerLevelDB;
+/**
+ * Sanitizer level DAO
+ * Contains functions used to query the sanitizer level collection.
+ */
 class SanitizerLevelDAO {
     constructor() {
         if (sanitizerLevelDB) {
@@ -31,43 +35,45 @@ class SanitizerLevelDAO {
                 .collection(constants_1.SL_COLLECTION);
         }
     }
-    getLevelHistory() {
+    /**
+     * Returns a promise of all available level history based on the page
+     * number and number of results desired.
+     *
+     * @param page - the current page of data to return defaults to 1
+     * @param resultsCount - the number of results to show per page defaults to 20
+     * @param startDate - The starting date of the filter
+     * @param endDate - The end date of the filter
+     */
+    getLevelHistory(page = 1, resultsCount = 20, startDate, endDate) {
         return __awaiter(this, void 0, void 0, function* () {
-            /**
-             * Returns all available sanitizer level entries
-             */
-            return this.db.find({});
+            let filter = {};
+            if (startDate && endDate) {
+                filter = { date: { $gte: startDate, $lte: endDate } };
+            }
+            const cursor = this.db
+                .find(filter)
+                .skip(resultsCount * (page - 1))
+                .limit(resultsCount);
+            return cursor.toArray();
         });
     }
-    filterByData(date) {
-        return __awaiter(this, void 0, void 0, function* () {
-            /**
-             * Returns all sanitizer level reading for a particular day
-             *
-             * @param date - The date the data was collected
-             */
-            const endDate = date;
-            endDate.setDate(date.getDate() + 1);
-            return this.db.find({ date: { $gte: date, $lt: endDate } });
-        });
-    }
+    /**
+     * Insert sanitizer level into collection
+     *
+     * @param sanitizerLevel - Sanitizer level object
+     */
     insert(sanitizerLevel) {
         return __awaiter(this, void 0, void 0, function* () {
-            /**
-             * Insert sanitizer level into collection
-             *
-             * @param sanitizerLevel - Sanitizer level object
-             */
             yield this.db.insertOne(sanitizerLevel);
         });
     }
+    /**
+     * Deletes sanitizer level entry from collection
+     *
+     * @param id - ID of document to delete
+     */
     deleteById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            /**
-             * Deletes sanitizer level entry from collection
-             *
-             * @param id - ID of document to delete
-             */
             yield this.db.deleteOne({ _id: id });
         });
     }

@@ -26,6 +26,10 @@ var Priority;
     Priority[Priority["LOW"] = 0] = "LOW";
 })(Priority = exports.Priority || (exports.Priority = {}));
 let notificationDB;
+/**
+ * Notification DAO
+ * Contains functions used to query the Notification collection.
+ */
 class NotificationDAO {
     constructor() {
         if (notificationDB) {
@@ -40,23 +44,23 @@ class NotificationDAO {
     getAllNotifications() {
         return __awaiter(this, void 0, void 0, function* () { });
     }
+    /**
+     * Inserts a new document into the notification collection
+     *
+     * @param notification - notification object to insert
+     */
     insert(notification) {
         return __awaiter(this, void 0, void 0, function* () {
-            /**
-             * Inserts a new document into the notification collection
-             *
-             * @param notification - notification object to insert
-             */
             yield this.db.insertOne(notification);
         });
     }
+    /**
+     * Deletes notification entry from collection
+     *
+     * @param id - ID of document to delete
+     */
     deleteById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            /**
-             * Deletes notification entry from collection
-             *
-             * @param id - ID of document to delete
-             */
             yield this.db.deleteOne({ _id: id });
         });
     }

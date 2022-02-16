@@ -8,25 +8,25 @@ import { Collection, ObjectId } from "mongodb";
 import { DATABASE_NAME, DU_COLLECTION } from "../utils/constants";
 import mongoClient from "./db-connect";
 
+/**
+ * DailyUsage collection interface
+ *
+ * @param _id - ID of document
+ * @param date - Date (day) document was recorded
+ * @param useCount - The number of times the sanitizing machine was used in a day
+ */
 export interface DailyUsage {
-  /**
-   * DailyUsage collection interface
-   *
-   * @param _id - ID of document
-   * @param date - Date (day) document was recorded
-   * @param useCount - The number of times the sanitizing machine was used in a day
-   */
   date: Date;
   useCount: number;
 }
 
 let dailyUsageDB: Collection<DailyUsage>;
 
+/**
+ * Daily usage DAO
+ * Contains functions used to query the daily usage collection.
+ */
 class DailyUsageDAO {
-  /**
-   * Daily usage DAO
-   * Contains functions used to query the daily usage collection.
-   */
   private db: Collection<DailyUsage>;
   constructor() {
     if (dailyUsageDB) {
@@ -37,19 +37,18 @@ class DailyUsageDAO {
         .collection<DailyUsage>(DU_COLLECTION);
     }
   }
-
+  /**
+   * Returns all tha available sanitizer usage history
+   */
   async getUsageHistory(this: DailyUsageDAO) {
-    /**
-     * Returns all tha available sanitizer usage history
-     */
     return this.db.find({});
   }
   async filterUsageHistory(this: DailyUsageDAO) {}
+  /**
+   * Inserts a new document into the daily usage collection
+   * or updates a document if the date already exists
+   */
   async insertOrUpdate(this: DailyUsageDAO) {
-    /**
-     * Inserts a new document into the daily usage collection
-     * or updates a document if the date already exists
-     */
     const today = new Date().toLocaleDateString();
     const usageData = await this.db.findOne({ date: new Date(today) });
     if (usageData) {
@@ -64,10 +63,10 @@ class DailyUsageDAO {
       });
     }
   }
+  /**
+   * Delete usage data entry
+   */
   async deleteById(this: DailyUsageDAO, id: ObjectId) {
-    /**
-     * Delete usage data entry
-     */
     await this.db.deleteOne({ _id: id });
   }
 }

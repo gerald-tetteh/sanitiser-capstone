@@ -24,15 +24,15 @@ const notification_dao_1 = __importDefault(require("../db/notification-dao"));
 const sanitizerLevelDao = new sanitizer_level_dao_1.default();
 const dailyUsageDoa = new daily_usage_dao_1.default();
 const notificationDao = new notification_dao_1.default();
+/**
+ * Inserts the sanitizer level into the sanitizer level collection
+ */
 const postSanitizerLevel = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    /**
-     * Inserts the sanitizer level into the sanitizer level collection
-     */
     try {
         const sanitizerLevel = req.body;
         yield sanitizerLevelDao.insert({
             percentage: sanitizerLevel.percentage,
-            date: new Date(sanitizerLevel.date),
+            date: new Date(),
         });
         res.status(201).json({ message: "Inserted Item", error: false });
     }
@@ -42,10 +42,10 @@ const postSanitizerLevel = (req, res, next) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.postSanitizerLevel = postSanitizerLevel;
+/**
+ * Update or insert daily usage count of the sanitizing machine
+ */
 const postUsageCount = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    /**
-     * Update or insert daily usage count of the sanitizing machine
-     */
     try {
         yield dailyUsageDoa.insertOrUpdate();
         res.status(201).json({ message: "Updated Item", error: false });
@@ -57,15 +57,15 @@ const postUsageCount = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.postUsageCount = postUsageCount;
 // TODO: Add socket.io and mail service
+/**
+ * Inserts notification into notification collection and sends
+ * an email to the user.
+ */
 const postNotification = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    /**
-     * Inserts notification into notification collection and sends
-     * an email to the user.
-     */
     try {
         const notification = req.body;
         yield notificationDao.insert({
-            date: new Date(notification.date),
+            date: new Date(),
             percentage: notification.percentage,
             priority: notification.priority,
         });

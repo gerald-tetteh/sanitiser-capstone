@@ -13,15 +13,15 @@ export enum Priority {
   LOW = 0,
 }
 
+/**
+ * Notification collection interface
+ *
+ * @param _id - ID of document
+ * @param date - Date (day) document was recorded
+ * @param priority - The urgency of this notification
+ * @param percentage - The percentage level of the sanitizer
+ */
 export interface Notification {
-  /**
-   * Notification collection interface
-   *
-   * @param _id - ID of document
-   * @param date - Date (day) document was recorded
-   * @param priority - The urgency of this notification
-   * @param percentage - The percentage level of the sanitizer
-   */
   date: Date;
   priority: Priority;
   percentage: number;
@@ -29,11 +29,11 @@ export interface Notification {
 
 let notificationDB: Collection<Notification>;
 
+/**
+ * Notification DAO
+ * Contains functions used to query the Notification collection.
+ */
 class NotificationDAO {
-  /**
-   * Notification DAO
-   * Contains functions used to query the Notification collection.
-   */
   private db: Collection<Notification>;
   constructor() {
     if (notificationDB) {
@@ -46,20 +46,20 @@ class NotificationDAO {
   }
 
   async getAllNotifications(this: NotificationDAO) {}
+  /**
+   * Inserts a new document into the notification collection
+   *
+   * @param notification - notification object to insert
+   */
   async insert(this: NotificationDAO, notification: Notification) {
-    /**
-     * Inserts a new document into the notification collection
-     *
-     * @param notification - notification object to insert
-     */
     await this.db.insertOne(notification);
   }
+  /**
+   * Deletes notification entry from collection
+   *
+   * @param id - ID of document to delete
+   */
   async deleteById(this: NotificationDAO, id: ObjectId) {
-    /**
-     * Deletes notification entry from collection
-     *
-     * @param id - ID of document to delete
-     */
     await this.db.deleteOne({ _id: id });
   }
 }

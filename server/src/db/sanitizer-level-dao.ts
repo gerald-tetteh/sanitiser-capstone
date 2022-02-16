@@ -4,29 +4,29 @@
  * AHSM Server - sanitizer-level-dao.ts
  */
 
-import { Collection, ObjectId } from "mongodb";
+import { Collection, Filter, ObjectId } from "mongodb";
 import { DATABASE_NAME, SL_COLLECTION } from "../utils/constants";
 import mongoClient from "./db-connect";
 
+/**
+ * Sanitizer level collection interface
+ *
+ * @param _id - ID of document (optional)
+ * @param percentage - Percentage of the sanitizer in the container.
+ * @param date - Date the data was collected
+ */
 export interface SanitizerLevel {
-  /**
-   * Sanitizer level collection interface
-   *
-   * @param _id - ID of document (optional)
-   * @param percentage - Percentage of the sanitizer in the container.
-   * @param date - Date the data was collected
-   */
   percentage: number;
   date: Date;
 }
 
 let sanitizerLevelDB: Collection<SanitizerLevel>;
 
+/**
+ * Sanitizer level DAO
+ * Contains functions used to query the sanitizer level collection.
+ */
 class SanitizerLevelDAO {
-  /**
-   * Sanitizer level DAO
-   * Contains functions used to query the sanitizer level collection.
-   */
   private db: Collection<SanitizerLevel>;
 
   constructor() {
@@ -39,36 +39,46 @@ class SanitizerLevelDAO {
     }
   }
 
-  async getLevelHistory(this: SanitizerLevelDAO) {
-    /**
-     * Returns all available sanitizer level entries
-     */
-    return this.db.find({});
+  /**
+   * Returns a promise of all available level history based on the page
+   * number and number of results desired.
+   *
+   * @param page - the current page of data to return defaults to 1
+   * @param resultsCount - the number of results to show per page defaults to 20
+   * @param startDate - The starting date of the filter
+   * @param endDate - The end date of the filter
+   */
+  async getLevelHistory(
+    this: SanitizerLevelDAO,
+    page = 1,
+    resultsCount = 20,
+    startDate?: Date,
+    endDate?: Date
+  ) {
+    let filter: Filter<SanitizerLevel> = {};
+    if (startDate && endDate) {
+      filter = { date: { $gte: startDate, $lte: endDate } };
+    }
+    const cursor = this.db
+      .find(filter)
+      .skip(resultsCount * (page - 1))
+      .limit(resultsCount);
+    return cursor.toArray();
   }
-  async filterByData(this: SanitizerLevelDAO, date: Date) {
-    /**
-     * Returns all sanitizer level reading for a particular day
-     *
-     * @param date - The date the data was collected
-     */
-    const endDate = date;
-    endDate.setDate(date.getDate() + 1);
-    return this.db.find({ date: { $gte: date, $lt: endDate } });
-  }
+  /**
+   * Insert sanitizer level into collection
+   *
+   * @param sanitizerLevel - Sanitizer level object
+   */
   async insert(this: SanitizerLevelDAO, sanitizerLevel: SanitizerLevel) {
-    /**
-     * Insert sanitizer level into collection
-     *
-     * @param sanitizerLevel - Sanitizer level object
-     */
     await this.db.insertOne(sanitizerLevel);
   }
+  /**
+   * Deletes sanitizer level entry from collection
+   *
+   * @param id - ID of document to delete
+   */
   async deleteById(this: SanitizerLevelDAO, id: ObjectId) {
-    /**
-     * Deletes sanitizer level entry from collection
-     *
-     * @param id - ID of document to delete
-     */
     await this.db.deleteOne({ _id: id });
   }
 }

@@ -20,6 +20,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("../utils/constants");
 const db_connect_1 = __importDefault(require("./db-connect"));
 let dailyUsageDB;
+/**
+ * Daily usage DAO
+ * Contains functions used to query the daily usage collection.
+ */
 class DailyUsageDAO {
     constructor() {
         if (dailyUsageDB) {
@@ -31,23 +35,23 @@ class DailyUsageDAO {
                 .collection(constants_1.DU_COLLECTION);
         }
     }
+    /**
+     * Returns all tha available sanitizer usage history
+     */
     getUsageHistory() {
         return __awaiter(this, void 0, void 0, function* () {
-            /**
-             * Returns all tha available sanitizer usage history
-             */
             return this.db.find({});
         });
     }
     filterUsageHistory() {
         return __awaiter(this, void 0, void 0, function* () { });
     }
+    /**
+     * Inserts a new document into the daily usage collection
+     * or updates a document if the date already exists
+     */
     insertOrUpdate() {
         return __awaiter(this, void 0, void 0, function* () {
-            /**
-             * Inserts a new document into the daily usage collection
-             * or updates a document if the date already exists
-             */
             const today = new Date().toLocaleDateString();
             const usageData = yield this.db.findOne({ date: new Date(today) });
             if (usageData) {
@@ -61,11 +65,11 @@ class DailyUsageDAO {
             }
         });
     }
+    /**
+     * Delete usage data entry
+     */
     deleteById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            /**
-             * Delete usage data entry
-             */
             yield this.db.deleteOne({ _id: id });
         });
     }

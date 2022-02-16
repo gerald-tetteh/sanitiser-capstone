@@ -22,9 +22,11 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const db_connect_1 = __importDefault(require("./db/db-connect"));
 const api_1 = __importDefault(require("./routes/api"));
+const dashboard_1 = __importDefault(require("./routes/dashboard"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+app.use("/dashboard", dashboard_1.default);
 app.use("/api", api_1.default);
 const errorRequest = (error, req, res, next) => {
     res.status(500).json({ message: error.message, error: true });
