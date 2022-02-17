@@ -1,0 +1,69 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - main.scss
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+html {
+  font-size: 62.5%; }
+  html:focus-within {
+    scroll-behavior: smooth; }
+
+ul[role="list"] {
+  list-style: none; }
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  font-size: 1.6rem;
+  padding: 1.5rem; }
+
+img {
+  display: block;
+  max-width: 100%; }
+
+input,
+button,
+select {
+  font: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important; } }
+
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - utils.scss
+*/
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - app-grid.tsx
+*/
+.main {
+  display: grid;
+  grid-template-columns: min-content minmax(min-content, 1fr);
+  grid-template-rows: auto;
+  gap: 2rem;
+  height: calc(100vh - 3rem); }
+  .main__sidebar {
+    overflow: hidden;
+    background-color: green; }
+  .main__content {
+    overflow: scroll;
+    background-color: orangered; }

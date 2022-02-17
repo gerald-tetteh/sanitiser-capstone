@@ -1,0 +1,21 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - app-grid.tsx
+*/
+.main {
+  display: grid;
+  grid-template-columns: min-content minmax(min-content, 1fr);
+  grid-template-rows: auto;
+  gap: 2rem;
+  height: calc(100vh - 3rem);
+
+  &__sidebar {
+    overflow: hidden;
+    background-color: green;
+  }
+  &__content {
+    overflow: scroll;
+    background-color: orangered;
+  }
+}

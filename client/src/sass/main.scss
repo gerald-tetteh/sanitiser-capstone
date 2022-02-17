@@ -1,0 +1,19 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - main.scss
+*/
+
+// abstracts
+@import "./abstracts/mixins";
+@import "./abstracts/variables";
+// base
+@import "./base/reset";
+@import "./base/typography";
+@import "./base/utils";
+// components
+// layout
+@import "./layout/app-grid";
+@import "./layout/dashboard-grid";
+// pages
+@import "./pages/dashboard";
