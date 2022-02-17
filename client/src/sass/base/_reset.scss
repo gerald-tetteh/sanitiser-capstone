@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap");
+
 *,
 *::before,
 *::after {
@@ -22,7 +24,9 @@ body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   font-size: 1.6rem;
-  padding: 1.5rem;
+  padding: $padding-body;
+  background-color: $color-black;
+  font-family: $font-inconsolata;
 }
 
 img {

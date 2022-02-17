@@ -1,0 +1,16 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - sidebar.tsx
+*/
+
+.sidebar {
+  overflow: hidden;
+  background-color: $color-beige;
+  padding: 1rem;
+
+  &__icon {
+    max-width: 5rem;
+    width: 100%;
+  }
+}

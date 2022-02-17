@@ -3,6 +3,12 @@
  * Ashesi Final Year Capstone
  * AHSM Client - main.scss
 */
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - variables.scss
+*/
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap");
 *,
 *::before,
 *::after {
@@ -23,7 +29,9 @@ body {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   font-size: 1.6rem;
-  padding: 1.5rem; }
+  padding: 1.5rem;
+  background-color: #191919;
+  font-family: "Inconsolata", monospace; }
 
 img {
   display: block;
@@ -61,9 +69,19 @@ select {
   grid-template-rows: auto;
   gap: 2rem;
   height: calc(100vh - 3rem); }
-  .main__sidebar {
-    overflow: hidden;
-    background-color: green; }
   .main__content {
     overflow: scroll;
-    background-color: orangered; }
+    background-color: #2d4263; }
+
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - sidebar.tsx
+*/
+.sidebar {
+  overflow: hidden;
+  background-color: #ecdbba;
+  padding: 1rem; }
+  .sidebar__icon {
+    max-width: 5rem;
+    width: 100%; }

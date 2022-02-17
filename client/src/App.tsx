@@ -6,13 +6,14 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
+import logo from "./assets/icons/logo.svg";
 
 const App = () => {
   return (
     <BrowserRouter>
       <main className="main">
-        <aside className="main__sidebar">
-          <p>Sidebar</p>
+        <aside className="sidebar">
+          <img src={logo} alt="App Logo" className="sidebar__icon" />
         </aside>
         <section className="main__content">
           <Routes>
