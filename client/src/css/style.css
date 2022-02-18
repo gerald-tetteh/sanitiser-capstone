@@ -6,9 +6,18 @@
 /**
  * Author: Gerald Addo-Tetteh
  * Ashesi Final Year Capstone
- * AHSM Client - variables.scss
+ * AHSM Client - animations.scss
 */
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap");
+.shrink-sidebar-text {
+  width: 0;
+  visibility: hidden; }
+
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - variables.scss
+*/
 *,
 *::before,
 *::after {
@@ -42,6 +51,15 @@ button,
 select {
   font: inherit; }
 
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #191919; }
+
+button {
+  border: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html:focus-within {
     scroll-behavior: auto; }
@@ -65,7 +83,7 @@ select {
 */
 .main {
   display: grid;
-  grid-template-columns: min-content minmax(min-content, 1fr);
+  grid-template-columns: minmax(6rem, max-content) minmax(min-content, 1fr);
   grid-template-rows: auto;
   gap: 2rem;
   height: calc(100vh - 3rem); }
@@ -81,7 +99,34 @@ select {
 .sidebar {
   overflow: hidden;
   background-color: #ecdbba;
-  padding: 1rem; }
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: 5px;
+  position: relative; }
   .sidebar__icon {
-    max-width: 5rem;
-    width: 100%; }
+    display: inline-block;
+    height: 7rem;
+    width: auto; }
+  .sidebar__nav {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column; }
+    .sidebar__nav__link {
+      margin-block: 2rem;
+      display: flex;
+      align-items: center; }
+      .sidebar__nav__link span:first-of-type {
+        margin-right: 0.5rem;
+        color: #c84b31; }
+      .sidebar__nav__link__text {
+        color: #2d4263;
+        font-weight: 600;
+        font-size: 2rem; }
+    .sidebar__nav__expand {
+      font-size: 3.5rem;
+      color: #c84b31;
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%) rotate(180deg);
+      cursor: pointer; }

@@ -7,10 +7,44 @@
 .sidebar {
   overflow: hidden;
   background-color: $color-beige;
-  padding: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: $border-radius-small;
+  position: relative;
 
   &__icon {
-    max-width: 5rem;
-    width: 100%;
+    display: inline-block;
+    height: 7rem;
+    width: auto;
+  }
+  &__nav {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+
+    &__link {
+      margin-block: 2rem;
+      display: flex;
+      align-items: center;
+
+      & span:first-of-type {
+        margin-right: 0.5rem;
+        color: $color-red;
+      }
+      &__text {
+        color: $color-navy;
+        font-weight: 600;
+        font-size: 2rem;
+      }
+    }
+    &__expand {
+      font-size: 3.5rem;
+      color: $color-red;
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%) rotate(180deg);
+      cursor: pointer;
+    }
   }
 }

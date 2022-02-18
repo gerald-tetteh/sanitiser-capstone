@@ -40,6 +40,16 @@ select {
   font: inherit;
 }
 
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+  color: $color-black;
+}
+button {
+  border: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html:focus-within {
     scroll-behavior: auto;

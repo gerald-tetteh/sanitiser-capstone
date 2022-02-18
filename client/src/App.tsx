@@ -5,16 +5,14 @@
  */
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
-import logo from "./assets/icons/logo.svg";
 
 const App = () => {
   return (
     <BrowserRouter>
       <main className="main">
-        <aside className="sidebar">
-          <img src={logo} alt="App Logo" className="sidebar__icon" />
-        </aside>
+        <Sidebar />
         <section className="main__content">
           <Routes>
             <Route path="/" element={<Dashboard />} />
