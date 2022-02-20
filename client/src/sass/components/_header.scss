@@ -1,0 +1,15 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - header.scss
+*/
+
+.header {
+  padding: 1rem 3rem;
+  color: $color-white;
+
+  &__app-name {
+    font-weight: 900;
+    font-size: 2rem;
+  }
+}

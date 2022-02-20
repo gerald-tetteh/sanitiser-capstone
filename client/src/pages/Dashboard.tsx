@@ -9,7 +9,7 @@ import { FunctionComponent } from "react";
 const Dashboard: FunctionComponent = () => {
   return (
     <div className="dashboard dashboard-grid">
-      <header className="dashboard__header">header</header>
+      <section className="dashboard__header"></section>
       <section className="dashboard__analysis">Analysis Section</section>
       <section className="dashboard__notification">
         Notification Section

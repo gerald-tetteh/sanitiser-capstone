@@ -1,3 +1,9 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - dashboard-grid.scss
+ */
+
 .dashboard {
   &-grid {
     display: grid;
@@ -5,14 +11,14 @@
     grid-template-rows: repeat(7, 1fr);
   }
   &__header {
-    grid-row: 1 / 3;
+    grid-row: 1 / 2;
     grid-column: 1 / -1;
     background-color: orangered;
   }
   &__analysis {
     background-color: teal;
     grid-column: 1 / -1;
-    grid-row: 3 / 6;
+    grid-row: 2 / 6;
   }
   &__notification {
     background-color: chocolate;

@@ -5,6 +5,7 @@
  */
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import DailyUsage from "./pages/DailyUsage";
 import Dashboard from "./pages/Dashboard";
@@ -16,6 +17,7 @@ const App = () => {
       <main className="main">
         <Sidebar />
         <section className="main__content">
+          <Header />
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/daily-usage" element={<DailyUsage />} />
