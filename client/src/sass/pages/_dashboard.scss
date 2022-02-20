@@ -1,0 +1,31 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - dashboard.scss
+*/
+
+.dashboard {
+  padding-inline: 1.5rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $color-white;
+    background-color: $color-red;
+    border-radius: $border-radius-small;
+    padding: 1rem 2rem;
+    line-height: 1;
+
+    &__text-box {
+      margin-right: 2rem;
+    }
+    &__heading {
+      font-size: 5rem;
+      font-weight: 600;
+    }
+    &__image {
+      font-size: 8rem;
+    }
+  }
+}

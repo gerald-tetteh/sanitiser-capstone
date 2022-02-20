@@ -91,7 +91,7 @@ button {
 */
 .main {
   display: grid;
-  grid-template-columns: minmax(6rem, max-content) minmax(min-content, 1fr);
+  grid-template-columns: max-content minmax(max-content, 1fr);
   grid-template-rows: auto;
   gap: 2rem;
   height: calc(100vh - 3rem); }
@@ -111,16 +111,13 @@ button {
 
 .dashboard__header {
   grid-row: 1 / 2;
-  grid-column: 1 / -1;
-  background-color: orangered; }
+  grid-column: 1 / -1; }
 
 .dashboard__analysis {
-  background-color: teal;
   grid-column: 1 / -1;
   grid-row: 2 / 6; }
 
 .dashboard__notification {
-  background-color: chocolate;
   grid-column: 1 / -1;
   grid-row: 6 / 8; }
 
@@ -179,3 +176,27 @@ button {
 
 .rotate-sidebar-arrow {
   transform: translateX(-50%) rotate(0deg); }
+
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - dashboard.scss
+*/
+.dashboard {
+  padding-inline: 1.5rem; }
+  .dashboard__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fefefe;
+    background-color: #c84b31;
+    border-radius: 5px;
+    padding: 1rem 2rem;
+    line-height: 1; }
+    .dashboard__header__text-box {
+      margin-right: 2rem; }
+    .dashboard__header__heading {
+      font-size: 5rem;
+      font-weight: 600; }
+    .dashboard__header__image {
+      font-size: 8rem; }

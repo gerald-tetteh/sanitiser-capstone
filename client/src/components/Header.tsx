@@ -18,11 +18,11 @@ const Header: FunctionComponent = () => {
     "/sanitizer-level": "Sanitizer Level",
   };
   return (
-    <div className="header">
+    <header className="header">
       <p className="header__app-name">AHSM</p>
       <p className="header__page">{page[location]}</p>
       <hr className="header__divider" />
-    </div>
+    </header>
   );
 };
 

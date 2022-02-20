@@ -13,15 +13,12 @@
   &__header {
     grid-row: 1 / 2;
     grid-column: 1 / -1;
-    background-color: orangered;
   }
   &__analysis {
-    background-color: teal;
     grid-column: 1 / -1;
     grid-row: 2 / 6;
   }
   &__notification {
-    background-color: chocolate;
     grid-column: 1 / -1;
     grid-row: 6 / 8;
   }
