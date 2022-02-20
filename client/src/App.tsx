@@ -6,7 +6,9 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
+import DailyUsage from "./pages/DailyUsage";
 import Dashboard from "./pages/Dashboard";
+import SanitizerLevel from "./pages/SanitizerLevel";
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
         <section className="main__content">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/daily-usage" element={<DailyUsage />} />
+            <Route path="/sanitizer-level" element={<SanitizerLevel />} />
           </Routes>
         </section>
       </main>
