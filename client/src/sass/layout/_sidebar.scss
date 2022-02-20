@@ -11,11 +11,13 @@
   text-align: center;
   border-radius: $border-radius-small;
   position: relative;
+  transition: all 0.3s;
 
   &__icon {
     display: inline-block;
     height: 7rem;
     width: auto;
+    transition: all 0.3s;
   }
   &__nav {
     margin-top: 3rem;
@@ -37,7 +39,8 @@
         font-size: 2rem;
       }
     }
-    &__expand {
+    &__expand-btn {
+      transition: all 0.3s;
       font-size: 3.5rem;
       color: $color-red;
       position: absolute;
@@ -47,4 +50,19 @@
       cursor: pointer;
     }
   }
+}
+
+// sidebar utils
+.shrink-sidebar nav a span:last-of-type {
+  width: 0;
+  visibility: hidden;
+}
+.shrink-sidebar .sidebar__icon {
+  height: 4rem;
+}
+.shrink-sidebar nav a {
+  justify-content: center;
+}
+.rotate-sidebar-arrow {
+  transform: translateX(-50%) rotate(0deg);
 }

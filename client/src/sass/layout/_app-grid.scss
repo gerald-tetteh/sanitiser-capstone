@@ -11,7 +11,7 @@
   height: calc(100vh - 3rem);
 
   &__content {
-    overflow: scroll;
+    overflow: auto;
     background-color: $color-navy;
   }
 }

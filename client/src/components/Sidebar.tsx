@@ -4,17 +4,28 @@
  * AHSM Client - Sidebar.tsx
  */
 
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/icons/logo.png";
 
 const Sidebar: FunctionComponent = () => {
+  const sidebarExpandRef = useRef<HTMLSpanElement>(null);
+  const sidebarNavRef = useRef<HTMLElement>(null);
+
   const [expanded, setExpanded] = useState(false);
-  const handleExpandSidebar = () => {};
-  const handleShrinkSidebar = () => {};
+  const handleExpandSidebar = () => {
+    sidebarExpandRef.current?.classList.add("rotate-sidebar-arrow");
+    sidebarNavRef.current?.classList.add("shrink-sidebar");
+    setExpanded(true);
+  };
+  const handleShrinkSidebar = () => {
+    sidebarExpandRef.current?.classList.remove("rotate-sidebar-arrow");
+    sidebarNavRef.current?.classList.remove("shrink-sidebar");
+    setExpanded(false);
+  };
 
   return (
-    <aside className="sidebar">
+    <aside ref={sidebarNavRef} className="sidebar">
       <Link to={"/"}>
         <img src={logo} alt="AHSM Logo" className="sidebar__icon" />
       </Link>
@@ -32,7 +43,11 @@ const Sidebar: FunctionComponent = () => {
           <span className="sidebar__nav__link__text">Sanitizer Level</span>
         </Link>
       </nav>
-      <span className="material-icons-round sidebar__nav__expand">
+      <span
+        ref={sidebarExpandRef}
+        onClick={expanded ? handleShrinkSidebar : handleExpandSidebar}
+        className="material-icons-round sidebar__nav__expand-btn"
+      >
         navigate_next
       </span>
     </aside>
