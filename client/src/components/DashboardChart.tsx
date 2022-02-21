@@ -12,8 +12,6 @@ import { DailyUsage } from "../utils/types";
 Chart.register(...registerables);
 
 const DashboardChart: FunctionComponent = () => {
-  // const dailyUsageCanvas = useRef<HTMLCanvasElement>(null);
-  // const sanitizerLevelCanvas = useRef<HTMLCanvasElement>(null);
   const [showDaily, setShowDaily] = useState<boolean>(true);
   const [labels, setLabels] = useState<string[]>([]);
   const [dailyUsage, setDailyUsage] = useState<number[]>([]);
@@ -24,8 +22,36 @@ const DashboardChart: FunctionComponent = () => {
       {
         label: "Usage Count",
         data: dailyUsage,
+        backgroundColor: ["#ecdbba"],
       },
     ],
+  };
+  const dailyUsageOptions = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          text: "# of uses",
+          display: true,
+          color: "#fefefe",
+          font: {
+            size: 19,
+          },
+        },
+        ticks: {
+          color: "#fefefe",
+        },
+      },
+      x: {
+        ticks: {
+          color: "#fefefe",
+        },
+      },
+    },
   };
 
   useEffect(() => {
@@ -46,7 +72,20 @@ const DashboardChart: FunctionComponent = () => {
 
   return (
     <article className="dashboard__analysis__chart">
-      {showDaily ? <Bar data={dailyUsageChartData} /> : <canvas></canvas>}
+      <div className="dashboard__analysis__heading-box">
+        <h3 className="dashboard__analysis__heading">
+          {showDaily ? "Daily Usage" : "Sanitizer Level"}
+        </h3>
+        <nav className="dashboard__analysis__tabs">
+          <button className="dashboard__analysis__tab">D.Usage</button>
+          <button className="dashboard__analysis__tab">S.Level</button>
+        </nav>
+      </div>
+      {showDaily ? (
+        <Bar data={dailyUsageChartData} options={dailyUsageOptions} />
+      ) : (
+        <canvas></canvas>
+      )}
     </article>
   );
 };

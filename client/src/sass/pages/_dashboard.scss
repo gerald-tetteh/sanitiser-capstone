@@ -29,9 +29,37 @@
     }
   }
   &__analysis {
+    color: $color-white;
     &__chart {
-      background-color: $color-white;
+      background-color: $color-black;
       border-radius: $border-radius-small;
+      padding-inline: 2rem;
+    }
+    &__heading-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-block: 1rem;
+    }
+    &__heading {
+    }
+    &__tabs {
+    }
+    &__tab {
+      padding: 1rem 2.5rem;
+      border-radius: $border-radius-small;
+      cursor: pointer;
+      background-color: $color-navy;
+      font-weight: 800;
+      color: $color-white;
+
+      &:first-of-type {
+        margin-right: 2rem;
+      }
+      &:hover {
+        background-color: darken($color: $color-beige, $amount: 5);
+        color: $color-red;
+      }
     }
   }
 }

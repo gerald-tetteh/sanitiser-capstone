@@ -212,6 +212,26 @@ button {
       font-weight: 600; }
     .dashboard__header__image {
       font-size: 8rem; }
-  .dashboard__analysis__chart {
-    background-color: #fefefe;
-    border-radius: 5px; }
+  .dashboard__analysis {
+    color: #fefefe; }
+    .dashboard__analysis__chart {
+      background-color: #191919;
+      border-radius: 5px;
+      padding-inline: 2rem; }
+    .dashboard__analysis__heading-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-block: 1rem; }
+    .dashboard__analysis__tab {
+      padding: 1rem 2.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #2d4263;
+      font-weight: 800;
+      color: #fefefe; }
+      .dashboard__analysis__tab:first-of-type {
+        margin-right: 2rem; }
+      .dashboard__analysis__tab:hover {
+        background-color: #e6d1a6;
+        color: #c84b31; }

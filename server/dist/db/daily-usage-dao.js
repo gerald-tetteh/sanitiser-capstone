@@ -70,14 +70,15 @@ class DailyUsageDAO {
      */
     insertOrUpdate() {
         return __awaiter(this, void 0, void 0, function* () {
-            const today = new Date().toLocaleDateString();
-            const usageData = yield this.db.findOne({ date: new Date(today) });
+            const today = new Date().toLocaleDateString("en-GB").split("/").map(Number);
+            const todayDate = new Date(today[2], today[1] - 1, today[0]);
+            const usageData = yield this.db.findOne({ date: todayDate });
             if (usageData) {
                 yield this.db.updateOne({ _id: usageData._id }, { $set: { useCount: usageData.useCount + 1 } });
             }
             else {
                 yield this.db.insertOne({
-                    date: new Date(today),
+                    date: todayDate,
                     useCount: 1,
                 });
             }

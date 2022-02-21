@@ -76,8 +76,9 @@ class DailyUsageDAO {
    * or updates a document if the date already exists
    */
   async insertOrUpdate(this: DailyUsageDAO) {
-    const today = new Date().toLocaleDateString();
-    const usageData = await this.db.findOne({ date: new Date(today) });
+    const today = new Date().toLocaleDateString("en-GB").split("/").map(Number);
+    const todayDate = new Date(today[2], today[1] - 1, today[0]);
+    const usageData = await this.db.findOne({ date: todayDate });
     if (usageData) {
       await this.db.updateOne(
         { _id: usageData._id },
@@ -85,7 +86,7 @@ class DailyUsageDAO {
       );
     } else {
       await this.db.insertOne({
-        date: new Date(today),
+        date: todayDate,
         useCount: 1,
       });
     }
