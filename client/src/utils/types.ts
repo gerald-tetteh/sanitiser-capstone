@@ -9,3 +9,8 @@ export type DailyUsage = {
   date: Date | string;
   useCount: number;
 };
+export type SanitizerLevel = {
+  _id: string;
+  percentage: number;
+  date: Date | string;
+};

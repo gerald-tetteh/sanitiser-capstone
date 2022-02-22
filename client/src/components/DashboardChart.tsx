@@ -4,54 +4,115 @@
  * AHSM Client - DashboardChart.tsx
  */
 
-import { Bar } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import { FunctionComponent, useEffect, useState } from "react";
-import { DailyUsage } from "../utils/types";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { DailyUsage, SanitizerLevel } from "../utils/types";
 
 Chart.register(...registerables);
+type linChartDataT = {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string;
+  }[];
+};
 
 const DashboardChart: FunctionComponent = () => {
   const [showDaily, setShowDaily] = useState<boolean>(true);
-  const [labels, setLabels] = useState<string[]>([]);
+  const [dailyUsageLabels, setDailyUsageLabels] = useState<string[]>([]);
+  const [sanitizerLevelLabels, setSanitizerLevelLabels] = useState<string[]>(
+    []
+  );
   const [dailyUsage, setDailyUsage] = useState<number[]>([]);
+  const [sanitizerLevel, setSanitizerLevel] = useState<number[]>([]);
+  const dailyButtonRef = useRef<HTMLButtonElement>(null);
+  const sanitizerButtonRef = useRef<HTMLButtonElement>(null);
 
-  const dailyUsageChartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: "Usage Count",
-        data: dailyUsage,
-        backgroundColor: ["#ecdbba"],
-      },
-    ],
+  const buildChartData = (
+    labels: string[],
+    label: string,
+    data: number[],
+    line = false
+  ) => {
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: label,
+          data: data,
+          backgroundColor: line ? "#ecdbba" : ["#ecdbba"],
+          borderColor: line ? "#c84b31" : "",
+        },
+      ],
+    };
   };
-  const dailyUsageOptions = {
-    plugins: {
-      legend: {
-        display: false,
+  const buildChartOptions = (title: string) => {
+    return {
+      plugins: {
+        legend: {
+          display: false,
+        },
       },
-    },
-    scales: {
-      y: {
-        title: {
-          text: "# of uses",
-          display: true,
-          color: "#fefefe",
-          font: {
-            size: 19,
+      scales: {
+        y: {
+          title: {
+            text: title,
+            display: true,
+            color: "#fefefe",
+            font: {
+              size: 19,
+            },
+          },
+          ticks: {
+            color: "#fefefe",
+            padding: 15,
+          },
+          grid: {
+            display: true,
+            color: "#fefefe",
+            borderColor: "#fefefe",
+            borderWidth: 5,
+            drawTicks: false,
           },
         },
-        ticks: {
-          color: "#fefefe",
+        x: {
+          ticks: {
+            color: "#fefefe",
+          },
+          grid: {
+            borderColor: "#fefefe",
+            borderWidth: 5,
+          },
         },
       },
-      x: {
-        ticks: {
-          color: "#fefefe",
-        },
-      },
-    },
+    };
+  };
+
+  const dailyUsageChartData = buildChartData(
+    dailyUsageLabels,
+    "Usage Count",
+    dailyUsage
+  );
+  const sanitizerLevelChartData = buildChartData(
+    sanitizerLevelLabels,
+    "Sanitizer Level",
+    sanitizerLevel,
+    true
+  ) as linChartDataT;
+  const sanitizerLevelOptions = buildChartOptions("% LEVEL");
+  const dailyUsageOptions = buildChartOptions("# OF USERS");
+
+  const handleShowDaily = () => {
+    sanitizerButtonRef.current?.classList.remove("dashboard__analysis__active");
+    dailyButtonRef.current?.classList.add("dashboard__analysis__active");
+    setShowDaily(true);
+  };
+  const handleShowSanitizerLevel = () => {
+    sanitizerButtonRef.current?.classList.add("dashboard__analysis__active");
+    dailyButtonRef.current?.classList.remove("dashboard__analysis__active");
+    setShowDaily(false);
   };
 
   useEffect(() => {
@@ -60,12 +121,25 @@ const DashboardChart: FunctionComponent = () => {
         return response.json();
       })
       .then((data: DailyUsage[]) => {
-        const labels = data.map((usage) => {
+        const dailyUsageLabels = data.map((usage) => {
           return new Date(usage.date).toLocaleDateString();
         });
         const dailyUsage = data.map((usage) => usage.useCount);
-        setLabels(labels);
+        setDailyUsageLabels(dailyUsageLabels);
         setDailyUsage(dailyUsage);
+      })
+      .catch((err) => console.error(err));
+    fetch("/dashboard/level-history")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data: SanitizerLevel[]) => {
+        const sanitizerLevelLabels = data.map((level) => {
+          return new Date(level.date).toLocaleDateString();
+        });
+        const sanitizerLevel = data.map((level) => level.percentage);
+        setSanitizerLevel(sanitizerLevel);
+        setSanitizerLevelLabels(sanitizerLevelLabels);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -77,14 +151,26 @@ const DashboardChart: FunctionComponent = () => {
           {showDaily ? "Daily Usage" : "Sanitizer Level"}
         </h3>
         <nav className="dashboard__analysis__tabs">
-          <button className="dashboard__analysis__tab">D.Usage</button>
-          <button className="dashboard__analysis__tab">S.Level</button>
+          <button
+            ref={dailyButtonRef}
+            onClick={handleShowDaily}
+            className="dashboard__analysis__tab dashboard__analysis__active"
+          >
+            D.Usage
+          </button>
+          <button
+            ref={sanitizerButtonRef}
+            onClick={handleShowSanitizerLevel}
+            className="dashboard__analysis__tab"
+          >
+            S.Level
+          </button>
         </nav>
       </div>
       {showDaily ? (
         <Bar data={dailyUsageChartData} options={dailyUsageOptions} />
       ) : (
-        <canvas></canvas>
+        <Line data={sanitizerLevelChartData} options={sanitizerLevelOptions} />
       )}
     </article>
   );

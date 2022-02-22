@@ -52,6 +52,8 @@
       background-color: $color-navy;
       font-weight: 800;
       color: $color-white;
+      outline: 1px solid transparent;
+      outline-offset: 3px;
 
       &:first-of-type {
         margin-right: 2rem;
@@ -60,6 +62,11 @@
         background-color: darken($color: $color-beige, $amount: 5);
         color: $color-red;
       }
+    }
+    &__active {
+      outline: 1px solid $color-beige;
+      background-color: $color-red;
+      color: $color-white;
     }
   }
 }
