@@ -1,7 +1,7 @@
 /**
  * Author: Gerald Addo-Tetteh
  * Ashesi Final Year Capstone
- * AHSM Client - DashboardChart.tsx
+ * AHSM Client - Types.ts
  */
 
 export type DailyUsage = {
