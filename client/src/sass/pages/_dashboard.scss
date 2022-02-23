@@ -35,6 +35,37 @@
       border-radius: $border-radius-small;
       padding-inline: 2rem;
     }
+    &__level {
+      border-radius: $border-radius-small;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      &__percentage {
+        color: $color-red;
+        text-align: center;
+        font-size: 8rem;
+      }
+      &__container {
+        flex-grow: 1;
+        margin-inline: 2rem;
+        margin-bottom: 2rem;
+        border: 10px solid $color-black;
+        border-top: none;
+        background-color: transparent;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: "";
+          position: absolute;
+          background-color: blue;
+          height: 100%;
+          width: 100%;
+          @include absCenter;
+          transition: all 0.3s;
+        }
+      }
+    }
     &__heading-box {
       display: flex;
       justify-content: space-between;
@@ -42,8 +73,11 @@
       padding-block: 1rem;
     }
     &__heading {
+      font-size: 3rem;
+      font-weight: 500;
     }
     &__tabs {
+      margin-right: 1rem;
     }
     &__tab {
       padding: 1rem 2.5rem;

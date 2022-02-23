@@ -11,6 +11,11 @@
 /**
  * Author: Gerald Addo-Tetteh
  * Ashesi Final Year Capstone
+ * AHSM Client - mixins.scss
+*/
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
  * AHSM Client - variables.scss
 */
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap");
@@ -218,11 +223,44 @@ button {
       background-color: #191919;
       border-radius: 5px;
       padding-inline: 2rem; }
+    .dashboard__analysis__level {
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; }
+      .dashboard__analysis__level__percentage {
+        color: #c84b31;
+        text-align: center;
+        font-size: 8rem; }
+      .dashboard__analysis__level__container {
+        flex-grow: 1;
+        margin-inline: 2rem;
+        margin-bottom: 2rem;
+        border: 10px solid #191919;
+        border-top: none;
+        background-color: transparent;
+        position: relative;
+        overflow: hidden; }
+        .dashboard__analysis__level__container::before {
+          content: "";
+          position: absolute;
+          background-color: blue;
+          height: 100%;
+          width: 100%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          transition: all 0.3s; }
     .dashboard__analysis__heading-box {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-block: 1rem; }
+    .dashboard__analysis__heading {
+      font-size: 3rem;
+      font-weight: 500; }
+    .dashboard__analysis__tabs {
+      margin-right: 1rem; }
     .dashboard__analysis__tab {
       padding: 1rem 2.5rem;
       border-radius: 5px;
