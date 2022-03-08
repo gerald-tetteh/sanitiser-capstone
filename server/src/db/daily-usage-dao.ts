@@ -39,6 +39,14 @@ class DailyUsageDAO {
   }
 
   /**
+   * Gets the current date.
+   * @returns the current date.
+   */
+  private getTodayDate() {
+    const today = new Date().toLocaleDateString("en-GB").split("/").map(Number);
+    return new Date(today[2], today[1] - 1, today[0]);
+  }
+  /**
    * Returns all tha available sanitizer usage history
    *
    * @param page - the current page of data to return defaults to 1
@@ -52,7 +60,7 @@ class DailyUsageDAO {
     page = 1,
     resultsCount = 20,
     startDate?: Date,
-    endDate?: Date
+    endDate: Date = new Date()
   ) {
     let filter: Filter<DailyUsage> = {};
     if (startDate && endDate) {
@@ -72,12 +80,19 @@ class DailyUsageDAO {
     return cursor.toArray();
   }
   /**
+   * Gets the usage data fro the current day
+   * @returns Date for current day
+   */
+  async getTodayUsage() {
+    const todayDate = this.getTodayDate();
+    return this.db.findOne({ date: todayDate });
+  }
+  /**
    * Inserts a new document into the daily usage collection
    * or updates a document if the date already exists
    */
   async insertOrUpdate(this: DailyUsageDAO) {
-    const today = new Date().toLocaleDateString("en-GB").split("/").map(Number);
-    const todayDate = new Date(today[2], today[1] - 1, today[0]);
+    const todayDate = this.getTodayDate();
     const usageData = await this.db.findOne({ date: todayDate });
     if (usageData) {
       await this.db.updateOne(

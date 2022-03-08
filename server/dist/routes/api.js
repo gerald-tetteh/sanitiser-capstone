@@ -12,6 +12,6 @@ const express_1 = __importDefault(require("express"));
 const api_1 = require("../controllers/api");
 const router = express_1.default.Router();
 router.post("/sanitizer-level", api_1.postSanitizerLevel);
-router.post("/usage-count", api_1.postUsageCount);
+router.route("/usage-count").post(api_1.postUsageCount).get(api_1.getUsageCount);
 router.post("/notification", api_1.postNotification);
 exports.default = router;

@@ -41,6 +41,24 @@ export const postUsageCount: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
+/**
+ * Get the usage count for the current day
+ */
+export const getUsageCount: RequestHandler = async (req, res, next) => {
+  try {
+    const usageToday = await dailyUsageDoa.getTodayUsage();
+    if (usageToday) {
+      res
+        .status(200)
+        .json({ dailyUsage: usageToday.useCount, date: Date.now() });
+    } else {
+      res.status(200).json({ dailyUsage: 0 });
+    }
+  } catch (e: any) {
+    const error = new Error(e.message as string);
+    next(error);
+  }
+};
 // TODO: Add socket.io and mail service
 /**
  * Inserts notification into notification collection and sends

@@ -6,6 +6,7 @@
 
 import express from "express";
 import {
+  getUsageCount,
   postNotification,
   postSanitizerLevel,
   postUsageCount,
@@ -14,7 +15,7 @@ import {
 const router = express.Router();
 
 router.post("/sanitizer-level", postSanitizerLevel);
-router.post("/usage-count", postUsageCount);
+router.route("/usage-count").post(postUsageCount).get(getUsageCount);
 router.post("/notification", postNotification);
 
 export default router;

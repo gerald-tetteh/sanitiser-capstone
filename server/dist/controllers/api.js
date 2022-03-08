@@ -17,7 +17,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postNotification = exports.postUsageCount = exports.postSanitizerLevel = void 0;
+exports.postNotification = exports.getUsageCount = exports.postUsageCount = exports.postSanitizerLevel = void 0;
 const sanitizer_level_dao_1 = __importDefault(require("../db/sanitizer-level-dao"));
 const daily_usage_dao_1 = __importDefault(require("../db/daily-usage-dao"));
 const notification_dao_1 = __importDefault(require("../db/notification-dao"));
@@ -56,6 +56,27 @@ const postUsageCount = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.postUsageCount = postUsageCount;
+/**
+ * Get the usage count for the current day
+ */
+const getUsageCount = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const usageToday = yield dailyUsageDoa.getTodayUsage();
+        if (usageToday) {
+            res
+                .status(200)
+                .json({ dailyUsage: usageToday.useCount, date: Date.now() });
+        }
+        else {
+            res.status(200).json({ dailyUsage: 0 });
+        }
+    }
+    catch (e) {
+        const error = new Error(e.message);
+        next(error);
+    }
+});
+exports.getUsageCount = getUsageCount;
 // TODO: Add socket.io and mail service
 /**
  * Inserts notification into notification collection and sends

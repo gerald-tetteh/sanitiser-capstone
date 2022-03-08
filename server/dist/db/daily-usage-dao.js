@@ -36,6 +36,14 @@ class DailyUsageDAO {
         }
     }
     /**
+     * Gets the current date.
+     * @returns the current date.
+     */
+    getTodayDate() {
+        const today = new Date().toLocaleDateString("en-GB").split("/").map(Number);
+        return new Date(today[2], today[1] - 1, today[0]);
+    }
+    /**
      * Returns all tha available sanitizer usage history
      *
      * @param page - the current page of data to return defaults to 1
@@ -44,7 +52,7 @@ class DailyUsageDAO {
      * @param endDate - The end date of the filter
      * @returns A promise - An array of the usage data
      */
-    getUsageHistory(page = 1, resultsCount = 20, startDate, endDate) {
+    getUsageHistory(page = 1, resultsCount = 20, startDate, endDate = new Date()) {
         return __awaiter(this, void 0, void 0, function* () {
             let filter = {};
             if (startDate && endDate) {
@@ -65,13 +73,22 @@ class DailyUsageDAO {
         });
     }
     /**
+     * Gets the usage data fro the current day
+     * @returns Date for current day
+     */
+    getTodayUsage() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const todayDate = this.getTodayDate();
+            return this.db.findOne({ date: todayDate });
+        });
+    }
+    /**
      * Inserts a new document into the daily usage collection
      * or updates a document if the date already exists
      */
     insertOrUpdate() {
         return __awaiter(this, void 0, void 0, function* () {
-            const today = new Date().toLocaleDateString("en-GB").split("/").map(Number);
-            const todayDate = new Date(today[2], today[1] - 1, today[0]);
+            const todayDate = this.getTodayDate();
             const usageData = yield this.db.findOne({ date: todayDate });
             if (usageData) {
                 yield this.db.updateOne({ _id: usageData._id }, { $set: { useCount: usageData.useCount + 1 } });
