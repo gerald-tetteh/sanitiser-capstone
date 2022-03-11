@@ -3,3 +3,12 @@
  * Ashesi Final Year Capstone
  * AHSM Client - animations.scss
 */
+
+@keyframes water-flow {
+  0% {
+    background-position: -50000px center;
+  }
+  100% {
+    background-position: 0px center;
+  }
+}

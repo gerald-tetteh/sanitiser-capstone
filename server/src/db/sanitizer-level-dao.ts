@@ -4,7 +4,7 @@
  * AHSM Server - sanitizer-level-dao.ts
  */
 
-import { Collection, Filter, ObjectId } from "mongodb";
+import { Collection, Filter, ObjectId, Sort } from "mongodb";
 import { DATABASE_NAME, SL_COLLECTION } from "../utils/constants";
 import mongoClient from "./db-connect";
 
@@ -55,6 +55,7 @@ class SanitizerLevelDAO {
     endDate?: Date
   ) {
     let filter: Filter<SanitizerLevel> = {};
+    let sort: Sort = { date: 1 };
     if (startDate && endDate) {
       if (startDate > endDate) {
         throw new Error("End date must be greater than or equal to start date");
@@ -64,10 +65,15 @@ class SanitizerLevelDAO {
         endDate.setDate(endDate.getDate() + 1);
       }
       filter = { date: { $gte: startDate, $lte: endDate } };
+    } else {
+      if (resultsCount == 1) {
+        sort = { date: -1 };
+      }
     }
     const cursor = this.db
       .find(filter)
       .skip(resultsCount * (page - 1))
+      .sort(sort)
       .limit(resultsCount);
     return cursor.toArray();
   }

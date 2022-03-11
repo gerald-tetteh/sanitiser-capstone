@@ -30,6 +30,7 @@
   }
   &__analysis {
     color: $color-white;
+
     &__chart {
       background-color: $color-black;
       border-radius: $border-radius-small;
@@ -40,6 +41,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
       &__percentage {
         color: $color-red;
         text-align: center;
@@ -51,19 +53,12 @@
         margin-bottom: 2rem;
         border: 10px solid $color-black;
         border-top: none;
-        background-color: transparent;
         position: relative;
         overflow: hidden;
-
-        &::before {
-          content: "";
-          position: absolute;
-          background-color: blue;
-          height: 100%;
-          width: 100%;
-          @include absCenter;
-          transition: all 0.3s;
-        }
+        background-image: url(../assets/images/water.png);
+        background-repeat: repeat-x;
+        background-size: cover;
+        animation: water-flow 200s linear infinite;
       }
     }
     &__heading-box {
