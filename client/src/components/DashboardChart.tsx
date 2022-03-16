@@ -8,7 +8,7 @@ import { Bar, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { DailyUsage, SanitizerLevel } from "../utils/types";
-import { USAGE_URL } from "../utils/constants";
+import { S_LEVEL_URL, USAGE_URL } from "../utils/constants";
 
 Chart.register(...registerables);
 type linChartDataT = {
@@ -134,10 +134,7 @@ const DashboardChart: FunctionComponent = () => {
         setDailyUsage(dailyUsage);
       })
       .catch((err) => console.error(err));
-    startDate = new Date();
-    startDate.setDate(startDate.getDate() - 20);
-    startDateString = startDate.toLocaleDateString("af-ZA");
-    fetch("/dashboard/level-history")
+    fetch(`${S_LEVEL_URL}`)
       .then((response) => {
         return response.json();
       })

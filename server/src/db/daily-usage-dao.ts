@@ -76,6 +76,7 @@ class DailyUsageDAO {
     const cursor = this.db
       .find(filter)
       .skip(resultsCount * (page - 1))
+      .sort({ date: 1 })
       .limit(resultsCount);
     return cursor.toArray();
   }

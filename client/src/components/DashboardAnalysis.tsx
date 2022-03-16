@@ -10,22 +10,15 @@ import { SanitizerLevel } from "../utils/types";
 
 const DashboardAnalysis: FunctionComponent = () => {
   const [sanitizerLevel, setSanitizerLevel] = useState<number>(0);
-  const [tempLevel, setTempLevel] = useState(0);
   useEffect(() => {
     fetch(`${S_LEVEL_URL}?resultsCount=1`)
       .then((response) => response.json())
       .then((data: SanitizerLevel[]) => {
-        setTempLevel(data[0].percentage);
+        setSanitizerLevel(data[0].percentage);
       })
       .catch((err) => console.error(err));
   }, []);
   // TODO: check for errors
-  const interval = setInterval(() => {
-    setSanitizerLevel(tempLevel + 1);
-    if (tempLevel === sanitizerLevel) {
-      clearInterval(interval);
-    }
-  }, 2000);
   return (
     <article className="dashboard__analysis__level">
       <h3 className="dashboard__analysis__level__percentage">
