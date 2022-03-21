@@ -14,4 +14,5 @@ const router = express_1.default.Router();
 router.get("/level-history", dashboard_1.getLevelHistory);
 router.get("/usage-history", dashboard_1.getUsageHistory);
 router.get("/notifications", dashboard_1.getNotifications);
+router.get("/notifications/new", dashboard_1.getNewNotifications);
 exports.default = router;

@@ -1,0 +1,104 @@
+/**
+ * Author: Gerald Addo-Tetteh
+ * Ashesi Final Year Capstone
+ * AHSM Client - DashboardAnalysis.tsx
+ */
+
+import { FunctionComponent, useEffect, useState } from "react";
+import { Pie } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
+import { USAGE_URL } from "../utils/constants";
+import { DailyUsage } from "../utils/types";
+
+Chart.register(...registerables);
+
+const DashboardPieChart: FunctionComponent = () => {
+  const [weekDayUsage, setWeekDayUsage] = useState<number[]>([]);
+  const daysOfTheWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const endDate = new Date().toLocaleDateString("af-ZA");
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - 30);
+  const startDateString = startDate.toLocaleDateString("af-ZA");
+  const handleParseUsageData = (usageData: DailyUsage[]) => {
+    const weekDayCount = [0, 0, 0, 0, 0, 0, 0];
+    for (let dailyUsage of usageData) {
+      const date = new Date(dailyUsage.date);
+      const dayOfWeek = date.getDay();
+      weekDayCount[dayOfWeek] += dailyUsage.useCount;
+    }
+    return weekDayCount;
+  };
+  useEffect(() => {
+    fetch(
+      `${USAGE_URL}?startDate=${startDateString}&endDate=${endDate}&resultsCount=30`
+    )
+      .then((response) => response.json())
+      .then((data: DailyUsage[]) => {
+        setWeekDayUsage(handleParseUsageData(data));
+      })
+      .catch((err) => console.error(err));
+  }, []);
+  // TODO: check for errors
+  return (
+    <article className="dashboard__analysis__pie-chart">
+      <Pie
+        data={{
+          labels: daysOfTheWeek,
+          datasets: [
+            {
+              label: "Daily usage for past month",
+              data: weekDayUsage,
+              backgroundColor: [
+                "#003f5c",
+                "#374c80",
+                "#7a5195",
+                "#bc5090",
+                "#ef5675",
+                "#ff764a",
+                "#ffa600",
+              ],
+            },
+          ],
+        }}
+        options={{
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+            title: {
+              display: true,
+              text: "Daily Usage",
+              color: "#f7f7f7",
+              align: "start",
+              font: {
+                size: 20,
+                family: "monospace",
+              },
+            },
+            subtitle: {
+              display: true,
+              text: "Past Month",
+              color: "#ededed",
+              align: "start",
+            },
+          },
+          borderColor: "#212121",
+          color: "#f7f7f7",
+          font: {
+            family: "monospace",
+          },
+        }}
+      />
+    </article>
+  );
+};
+
+export default DashboardPieChart;

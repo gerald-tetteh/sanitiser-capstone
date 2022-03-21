@@ -5,7 +5,7 @@
  */
 
 import { FunctionComponent } from "react";
-import DashboardAnalysis from "../components/DashboardAnalysis";
+import DashboardPieChart from "../components/DashboardPieChart";
 import DashboardChart from "../components/DashboardChart";
 import DashboardHeader from "../components/DashboardHeader";
 
@@ -15,7 +15,7 @@ const Dashboard: FunctionComponent = () => {
       <DashboardHeader />
       <section className="dashboard__analysis">
         <DashboardChart />
-        <DashboardAnalysis />
+        <DashboardPieChart />
       </section>
       <section className="dashboard__notification">
         Notification Section

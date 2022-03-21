@@ -82,7 +82,25 @@ export const getUsageHistory: RequestHandler = async (req, res, next) => {
  */
 export const getNotifications: RequestHandler = async (req, res, next) => {
   try {
-    const notifications = await notificationsDao.getAllNotifications();
+    const { page, resultsCount, startDate, endDate } = parseQuery(req);
+    const notifications = await notificationsDao.getAllNotifications(
+      page,
+      resultsCount,
+      startDate,
+      endDate
+    );
+    res.status(200).json(notifications);
+  } catch (e: any) {
+    const error = new Error(e.message as string);
+    next(error);
+  }
+};
+/**
+ * Send json response of all new notifications
+ */
+export const getNewNotifications: RequestHandler = async (req, res, next) => {
+  try {
+    const notifications = await notificationsDao.getNewNotifications();
     res.status(200).json(notifications);
   } catch (e: any) {
     const error = new Error(e.message as string);

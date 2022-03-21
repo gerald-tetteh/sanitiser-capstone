@@ -8,24 +8,32 @@
   padding-inline: 1.5rem;
 
   &__header {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
     align-items: center;
     color: $color-white;
-    background-color: $color-red;
-    border-radius: $border-radius-small;
-    padding: 1rem 2rem;
+    padding: 1rem 0rem;
     line-height: 1;
 
-    &__text-box {
-      margin-right: 2rem;
-    }
-    &__heading {
-      font-size: 5rem;
-      font-weight: 600;
-    }
-    &__image {
-      font-size: 8rem;
+    &__tile {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: lighten($color-black, 5);
+      color: $color-white;
+      min-height: 100%;
+
+      padding: 1rem 2rem;
+      border-radius: $border-radius-small;
+      &__text {
+        margin-right: 3rem;
+      }
+      &__value {
+        font-size: 5rem;
+        font-weight: 500;
+        color: $color-red;
+      }
     }
   }
   &__analysis {
@@ -36,30 +44,7 @@
       border-radius: $border-radius-small;
       padding-inline: 2rem;
     }
-    &__level {
-      border-radius: $border-radius-small;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      &__percentage {
-        color: $color-red;
-        text-align: center;
-        font-size: 8rem;
-      }
-      &__container {
-        flex-grow: 1;
-        margin-inline: 2rem;
-        margin-bottom: 2rem;
-        border: 10px solid $color-black;
-        border-top: none;
-        position: relative;
-        overflow: hidden;
-        background-image: url(../assets/images/water.png);
-        background-repeat: repeat-x;
-        background-size: cover;
-        animation: water-flow 200s linear infinite;
-      }
+    &__pie-chart {
     }
     &__heading-box {
       display: flex;
