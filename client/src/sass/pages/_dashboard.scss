@@ -44,8 +44,8 @@
       border-radius: $border-radius-small;
       padding-inline: 2rem;
     }
-    &__pie-chart {
-    }
+    // &__pie-chart {
+    // }
     &__heading-box {
       display: flex;
       justify-content: space-between;
@@ -81,6 +81,42 @@
       outline: 1px solid $color-beige;
       background-color: $color-red;
       color: $color-white;
+    }
+  }
+  &__notification {
+    margin-bottom: 2rem;
+    &-panel {
+      margin-top: 3rem;
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      margin-inline: auto;
+      background-color: $color-black;
+      color: $color-white;
+      border-collapse: collapse;
+      border-radius: $border-radius-small;
+
+      & th {
+        background-color: $color-red;
+        padding: 1rem 3rem;
+
+        &:first-of-type {
+          border-radius: $border-radius-small 0 0 0;
+        }
+        &:last-of-type {
+          border-radius: 0 $border-radius-small 0 0;
+        }
+      }
+
+      &__row {
+        border: none;
+        & td {
+          padding: 1rem;
+        }
+        &:nth-of-type(even) {
+          background-color: $color-dark-grey;
+        }
+      }
     }
   }
 }

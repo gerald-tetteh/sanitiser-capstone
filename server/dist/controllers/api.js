@@ -21,6 +21,7 @@ exports.postNotification = exports.getUsageCount = exports.postUsageCount = expo
 const sanitizer_level_dao_1 = __importDefault(require("../db/sanitizer-level-dao"));
 const daily_usage_dao_1 = __importDefault(require("../db/daily-usage-dao"));
 const notification_dao_1 = __importDefault(require("../db/notification-dao"));
+const socket_1 = __importDefault(require("../utils/socket"));
 const sanitizerLevelDao = new sanitizer_level_dao_1.default();
 const dailyUsageDoa = new daily_usage_dao_1.default();
 const notificationDao = new notification_dao_1.default();
@@ -30,9 +31,14 @@ const notificationDao = new notification_dao_1.default();
 const postSanitizerLevel = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sanitizerLevel = req.body;
+        const date = new Date();
         yield sanitizerLevelDao.insert({
             percentage: sanitizerLevel.percentage,
-            date: new Date(),
+            date: date,
+        });
+        socket_1.default.getIo().emit("sanitizerLevel", {
+            percentage: sanitizerLevel.percentage,
+            date: date,
         });
         res.status(201).json({ message: "Inserted Item", error: false });
     }
@@ -89,6 +95,7 @@ const postNotification = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             date: new Date(),
             percentage: notification.percentage,
             priority: notification.priority,
+            handled: false,
         });
         // socket.io
         // email

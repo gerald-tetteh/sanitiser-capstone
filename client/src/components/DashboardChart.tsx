@@ -6,9 +6,16 @@
 
 import { Bar, Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import { FunctionComponent, useEffect, useRef, useState } from "react";
+import {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { DailyUsage, SanitizerLevel } from "../utils/types";
 import { S_LEVEL_URL, USAGE_URL } from "../utils/constants";
+import { DataContext } from "../providers/DataProvider";
 
 Chart.register(...registerables);
 type linChartDataT = {
@@ -30,6 +37,7 @@ const DashboardChart: FunctionComponent = () => {
   const [sanitizerLevel, setSanitizerLevel] = useState<number[]>([]);
   const dailyButtonRef = useRef<HTMLButtonElement>(null);
   const sanitizerButtonRef = useRef<HTMLButtonElement>(null);
+  const dataProvider = useContext(DataContext);
 
   const buildChartData = (
     labels: string[],
@@ -72,7 +80,7 @@ const DashboardChart: FunctionComponent = () => {
           },
           grid: {
             display: true,
-            color: "#fefefe",
+            color: "#191919",
             borderColor: "#fefefe",
             borderWidth: 5,
             drawTicks: false,
@@ -85,6 +93,7 @@ const DashboardChart: FunctionComponent = () => {
           grid: {
             borderColor: "#fefefe",
             borderWidth: 5,
+            color: "#191919",
           },
         },
       },
@@ -116,12 +125,17 @@ const DashboardChart: FunctionComponent = () => {
     setShowDaily(false);
   };
 
+  dataProvider?.socket.on("sanitizerLevel", (data: SanitizerLevel) => {
+    // const date = new Date(data.date).toLocaleDateString();
+    // console.log(...sanitizerLevel.slice(1));
+    // console.log(sanitizerLevel.slice(1));
+    console.log(sanitizerLevel);
+    // setSanitizerLevel([...sanitizerLevel.slice(1), data.percentage]);
+    // setSanitizerLevelLabels([...sanitizerLevelLabels.slice(1), date]);
+  });
+
   useEffect(() => {
-    const endDate = new Date().toLocaleDateString("af-ZA");
-    let startDate = new Date();
-    startDate.setDate(startDate.getDate() - 10);
-    let startDateString = startDate.toLocaleDateString("af-ZA");
-    fetch(`${USAGE_URL}?startDate=${startDateString}&endDate=${endDate}`)
+    fetch(`${USAGE_URL}`)
       .then((response) => {
         return response.json();
       })

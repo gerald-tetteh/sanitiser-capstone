@@ -11,7 +11,7 @@ import {
   S_LEVEL_URL,
   USAGE_API_URL,
 } from "../utils/constants";
-import { SanitizerLevel } from "../utils/types";
+import { SanitizerLevel, UserNotification } from "../utils/types";
 
 type HeaderTileProps = {
   title: string;
@@ -59,8 +59,8 @@ const DashboardHeader: FunctionComponent = () => {
       .catch((err) => console.error(err));
     fetch(`${NEW_NOTIFICATIONS_URL}`)
       .then((response) => response.json())
-      .then((notifications: Notification[]) => {
-        dataProvider!.notifications = notifications;
+      .then((notifications: UserNotification[]) => {
+        dataProvider!.setNotifications(notifications);
         setNotificationCount(notifications.length);
       })
       .catch((err) => console.error(err));

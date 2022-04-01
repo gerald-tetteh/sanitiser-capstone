@@ -19,10 +19,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const express_1 = __importDefault(require("express"));
+const socket_io_1 = require("socket.io");
 const cors_1 = __importDefault(require("cors"));
 const db_connect_1 = __importDefault(require("./db/db-connect"));
 const api_1 = __importDefault(require("./routes/api"));
 const dashboard_1 = __importDefault(require("./routes/dashboard"));
+const socket_1 = __importDefault(require("./utils/socket"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -35,7 +37,16 @@ app.use(errorRequest);
 const run = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield db_connect_1.default.connect();
-        app.listen(process.env.PORT);
+        const server = app.listen(process.env.PORT);
+        const io = new socket_io_1.Server(server, {
+            cors: {
+                origin: "http://localhost:3001",
+            },
+        });
+        socket_1.default.setIO(io);
+        io.on("connection", () => {
+            console.log("Web Sock Connected");
+        });
     }
     catch (e) {
         console.log(e);

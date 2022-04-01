@@ -8,6 +8,7 @@ import { RequestHandler } from "express";
 import SanitizerLevelDAO from "../db/sanitizer-level-dao";
 import DailyUsageDAO from "../db/daily-usage-dao";
 import NotificationDAO from "../db/notification-dao";
+import socket from "../utils/socket";
 
 const sanitizerLevelDao = new SanitizerLevelDAO();
 const dailyUsageDoa = new DailyUsageDAO();
@@ -19,9 +20,14 @@ const notificationDao = new NotificationDAO();
 export const postSanitizerLevel: RequestHandler = async (req, res, next) => {
   try {
     const sanitizerLevel = req.body as { percentage: number };
+    const date = new Date();
     await sanitizerLevelDao.insert({
       percentage: sanitizerLevel.percentage,
-      date: new Date(),
+      date: date,
+    });
+    socket.getIo().emit("sanitizerLevel", {
+      percentage: sanitizerLevel.percentage,
+      date: date,
     });
     res.status(201).json({ message: "Inserted Item", error: false });
   } catch (e: any) {
@@ -74,6 +80,7 @@ export const postNotification: RequestHandler = async (req, res, next) => {
       date: new Date(),
       percentage: notification.percentage,
       priority: notification.priority,
+      handled: false,
     });
     // socket.io
     // email

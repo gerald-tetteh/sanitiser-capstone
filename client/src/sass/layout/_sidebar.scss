@@ -6,7 +6,7 @@
 
 .sidebar {
   overflow: hidden;
-  background-color: $color-beige;
+  background-color: $color-dark-grey;
   padding: 1.5rem;
   text-align: center;
   border-radius: $border-radius-small;
@@ -34,7 +34,7 @@
         color: $color-red;
       }
       &__text {
-        color: $color-navy;
+        color: $color-white;
         font-weight: 600;
         font-size: 2rem;
       }

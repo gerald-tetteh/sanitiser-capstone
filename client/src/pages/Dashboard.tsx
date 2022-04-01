@@ -8,6 +8,7 @@ import { FunctionComponent } from "react";
 import DashboardPieChart from "../components/DashboardPieChart";
 import DashboardChart from "../components/DashboardChart";
 import DashboardHeader from "../components/DashboardHeader";
+import DashboardNotification from "../components/DashboardNotification";
 
 const Dashboard: FunctionComponent = () => {
   return (
@@ -18,7 +19,7 @@ const Dashboard: FunctionComponent = () => {
         <DashboardPieChart />
       </section>
       <section className="dashboard__notification">
-        Notification Section
+        <DashboardNotification />
       </section>
     </div>
   );

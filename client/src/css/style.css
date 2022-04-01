@@ -151,7 +151,7 @@ button {
 */
 .sidebar {
   overflow: hidden;
-  background-color: #ecdbba;
+  background-color: #343a40;
   padding: 1.5rem;
   text-align: center;
   border-radius: 5px;
@@ -174,7 +174,7 @@ button {
         margin-right: 0.5rem;
         color: #c84b31; }
       .sidebar__nav__link__text {
-        color: #2d4263;
+        color: #fefefe;
         font-weight: 600;
         font-size: 2rem; }
     .sidebar__nav__expand-btn {
@@ -264,3 +264,28 @@ button {
       outline: 1px solid #ecdbba;
       background-color: #c84b31;
       color: #fefefe; }
+  .dashboard__notification {
+    margin-bottom: 2rem; }
+    .dashboard__notification-panel {
+      margin-top: 3rem;
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      margin-inline: auto;
+      background-color: #191919;
+      color: #fefefe;
+      border-collapse: collapse;
+      border-radius: 5px; }
+      .dashboard__notification-panel th {
+        background-color: #c84b31;
+        padding: 1rem 3rem; }
+        .dashboard__notification-panel th:first-of-type {
+          border-radius: 5px 0 0 0; }
+        .dashboard__notification-panel th:last-of-type {
+          border-radius: 0 5px 0 0; }
+      .dashboard__notification-panel__row {
+        border: none; }
+        .dashboard__notification-panel__row td {
+          padding: 1rem; }
+        .dashboard__notification-panel__row:nth-of-type(even) {
+          background-color: #343a40; }

@@ -6,10 +6,12 @@
 
 import "dotenv/config";
 import express, { ErrorRequestHandler } from "express";
+import { Server } from "socket.io";
 import cors from "cors";
 import mongoClient from "./db/db-connect";
 import apiRoutes from "./routes/api";
 import dashboardRoutes from "./routes/dashboard";
+import socket from "./utils/socket";
 
 const app = express();
 
@@ -27,7 +29,16 @@ app.use(errorRequest);
 const run = async () => {
   try {
     await mongoClient.connect();
-    app.listen(process.env.PORT);
+    const server = app.listen(process.env.PORT);
+    const io = new Server(server, {
+      cors: {
+        origin: "http://localhost:3001",
+      },
+    });
+    socket.setIO(io);
+    io.on("connection", () => {
+      console.log("Web Sock Connected");
+    });
   } catch (e) {
     console.log(e);
   }
