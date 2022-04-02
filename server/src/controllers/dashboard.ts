@@ -5,6 +5,7 @@
  */
 
 import { Request, RequestHandler } from "express";
+import { ObjectId } from "mongodb";
 import DailyUsageDAO from "../db/daily-usage-dao";
 import NotificationDAO from "../db/notification-dao";
 import SanitizerLevelDAO from "../db/sanitizer-level-dao";
@@ -102,6 +103,24 @@ export const getNewNotifications: RequestHandler = async (req, res, next) => {
   try {
     const notifications = await notificationsDao.getNewNotifications();
     res.status(200).json(notifications);
+  } catch (e: any) {
+    const error = new Error(e.message as string);
+    next(error);
+  }
+};
+/**
+ * Toggle notification handled state
+ */
+export const toggleNotificationComplete: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { id } = req.body as { id: string };
+    const _id = new ObjectId(id);
+    await notificationsDao.toggleHandled(_id);
+    res.status(201).json({ message: "Updated Item", error: false });
   } catch (e: any) {
     const error = new Error(e.message as string);
     next(error);

@@ -104,6 +104,19 @@ class NotificationDAO {
   async deleteById(this: NotificationDAO, id: ObjectId) {
     await this.db.deleteOne({ _id: id });
   }
+  async toggleHandled(this: NotificationDAO, id: ObjectId) {
+    const notification = await this.db.findOne({ _id: id });
+    if (notification) {
+      await this.db.updateOne(
+        { _id: id },
+        {
+          $set: { handled: !notification.handled },
+        }
+      );
+    } else {
+      throw new Error("Notification does not exist");
+    }
+  }
 }
 
 export default NotificationDAO;

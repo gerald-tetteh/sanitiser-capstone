@@ -30,6 +30,15 @@ const DataStore = ({ children }: DataStoreProps) => {
   useEffect(() => {
     setSocket(io("http://localhost:3000"));
   }, []);
+  useEffect(() => {
+    socket?.on("notification", (data: UserNotification) => {
+      setNotifications((notifications) => {
+        const updatedNotifications = [...notifications];
+        updatedNotifications.push(data);
+        return updatedNotifications;
+      });
+    });
+  }, [socket]);
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
 };
 

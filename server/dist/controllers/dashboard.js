@@ -17,7 +17,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNewNotifications = exports.getNotifications = exports.getUsageHistory = exports.getLevelHistory = void 0;
+exports.toggleNotificationComplete = exports.getNewNotifications = exports.getNotifications = exports.getUsageHistory = exports.getLevelHistory = void 0;
+const mongodb_1 = require("mongodb");
 const daily_usage_dao_1 = __importDefault(require("../db/daily-usage-dao"));
 const notification_dao_1 = __importDefault(require("../db/notification-dao"));
 const sanitizer_level_dao_1 = __importDefault(require("../db/sanitizer-level-dao"));
@@ -110,3 +111,19 @@ const getNewNotifications = (req, res, next) => __awaiter(void 0, void 0, void 0
     }
 });
 exports.getNewNotifications = getNewNotifications;
+/**
+ * Toggle notification handled state
+ */
+const toggleNotificationComplete = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.body;
+        const _id = new mongodb_1.ObjectId(id);
+        yield notificationsDao.toggleHandled(_id);
+        res.status(201).json({ message: "Updated Item", error: false });
+    }
+    catch (e) {
+        const error = new Error(e.message);
+        next(error);
+    }
+});
+exports.toggleNotificationComplete = toggleNotificationComplete;

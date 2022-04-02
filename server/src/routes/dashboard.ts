@@ -10,13 +10,17 @@ import {
   getNewNotifications,
   getNotifications,
   getUsageHistory,
+  toggleNotificationComplete,
 } from "../controllers/dashboard";
 
 const router = express.Router();
 
 router.get("/level-history", getLevelHistory);
 router.get("/usage-history", getUsageHistory);
-router.get("/notifications", getNotifications);
+router
+  .route("/notifications")
+  .get(getNotifications)
+  .patch(toggleNotificationComplete);
 router.get("/notifications/new", getNewNotifications);
 
 export default router;

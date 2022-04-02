@@ -100,5 +100,18 @@ class NotificationDAO {
             yield this.db.deleteOne({ _id: id });
         });
     }
+    toggleHandled(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const notification = yield this.db.findOne({ _id: id });
+            if (notification) {
+                yield this.db.updateOne({ _id: id }, {
+                    $set: { handled: !notification.handled },
+                });
+            }
+            else {
+                throw new Error("Notification does not exist");
+            }
+        });
+    }
 }
 exports.default = NotificationDAO;

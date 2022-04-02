@@ -41,9 +41,6 @@ const DashboardHeader: FunctionComponent = () => {
     null
   );
   const [usageCount, setUsageCount] = useState<number | null>(null);
-  const [notificationCount, setNotificationCount] = useState<number | null>(
-    null
-  );
   useEffect(() => {
     fetch(`${S_LEVEL_URL}?resultsCount=1`)
       .then((response) => response.json())
@@ -61,7 +58,6 @@ const DashboardHeader: FunctionComponent = () => {
       .then((response) => response.json())
       .then((notifications: UserNotification[]) => {
         dataProvider!.setNotifications(notifications);
-        setNotificationCount(notifications.length);
       })
       .catch((err) => console.error(err));
     dataProvider?.socket?.on("sanitizerLevel", (data: SanitizerLevel) => {
@@ -90,7 +86,11 @@ const DashboardHeader: FunctionComponent = () => {
       <DashboardHeaderTile
         title="Notifications"
         date=""
-        value={notificationCount != null ? `${notificationCount}` : "..."}
+        value={
+          dataProvider?.notifications != null
+            ? `${dataProvider.notifications.length}`
+            : "..."
+        }
       />
     </section>
   );
