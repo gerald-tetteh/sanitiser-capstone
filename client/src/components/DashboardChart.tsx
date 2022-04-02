@@ -177,25 +177,31 @@ const DashboardChart: FunctionComponent = () => {
     });
     dataProvider?.socket?.on("usageCount", (data: DailyUsage) => {
       const date = new Date(data.date).toLocaleDateString();
+      let newDay = false;
       setDailyUsageLabels((labels) => {
         const updatedLabels = [...labels];
-        setDailyUsage((usage) => {
-          const updatedUsage = [...usage];
-          if (date !== updatedLabels[updatedLabels.length - 1]) {
-            console.log("here");
-            if (updatedLabels.length === 11) {
-              updatedLabels.shift();
-              updatedUsage.shift();
-            }
-            updatedLabels.push(date);
-            updatedUsage.push(data.useCount);
-          } else {
-            updatedLabels[updatedLabels.length - 1] += 1;
-            updatedUsage[updatedUsage.length - 1] += 1;
+        if (date !== updatedLabels[updatedLabels.length - 1]) {
+          newDay = true;
+          if (updatedLabels.length === 11) {
+            updatedLabels.shift();
           }
-          return updatedUsage;
-        });
+          updatedLabels.push(date);
+        } else {
+          updatedLabels[updatedLabels.length - 1] += 1;
+        }
         return updatedLabels;
+      });
+      setDailyUsage((usage) => {
+        const updatedUsage = [...usage];
+        if (newDay) {
+          if (updatedUsage.length === 11) {
+            updatedUsage.shift();
+          }
+          updatedUsage.push(data.useCount);
+        } else {
+          updatedUsage[updatedUsage.length - 1] += 1;
+        }
+        return updatedUsage;
       });
     });
   }, [dataProvider?.socket]);
