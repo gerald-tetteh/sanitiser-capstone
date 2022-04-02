@@ -55,7 +55,7 @@ class SanitizerLevelDAO {
     endDate?: Date
   ) {
     let filter: Filter<SanitizerLevel> = {};
-    let sort: Sort = { date: 1 };
+    let sort: Sort = { date: -1 };
     if (startDate && endDate) {
       if (startDate > endDate) {
         throw new Error("End date must be greater than or equal to start date");
@@ -65,10 +65,6 @@ class SanitizerLevelDAO {
         endDate.setDate(endDate.getDate() + 1);
       }
       filter = { date: { $gte: startDate, $lte: endDate } };
-    } else {
-      if (resultsCount == 1) {
-        sort = { date: -1 };
-      }
     }
     const cursor = this.db
       .find(filter)

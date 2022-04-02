@@ -92,7 +92,11 @@ class DailyUsageDAO {
             const todayDate = this.getTodayDate();
             const usageData = yield this.db.findOne({ date: todayDate });
             if (usageData) {
-                yield this.db.updateOne({ _id: usageData._id }, { $set: { useCount: usageData.useCount + 1 } });
+                yield this.db.findOneAndUpdate({ _id: usageData._id }, { $set: { useCount: usageData.useCount + 1 } });
+                return {
+                    date: usageData.date,
+                    useCount: usageData.useCount + 1,
+                };
             }
             else {
                 yield this.db.insertOne({
@@ -100,6 +104,10 @@ class DailyUsageDAO {
                     useCount: 1,
                 });
             }
+            return {
+                date: todayDate,
+                useCount: 1,
+            };
         });
     }
     /**

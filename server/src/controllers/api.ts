@@ -40,7 +40,8 @@ export const postSanitizerLevel: RequestHandler = async (req, res, next) => {
  */
 export const postUsageCount: RequestHandler = async (req, res, next) => {
   try {
-    await dailyUsageDoa.insertOrUpdate();
+    const dailyUsage = await dailyUsageDoa.insertOrUpdate();
+    socket.getIo().emit("usageCount", dailyUsage);
     res.status(201).json({ message: "Updated Item", error: false });
   } catch (e: any) {
     const error = new Error(e.message as string);

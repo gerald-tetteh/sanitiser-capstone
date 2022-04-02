@@ -53,7 +53,8 @@ exports.postSanitizerLevel = postSanitizerLevel;
  */
 const postUsageCount = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield dailyUsageDoa.insertOrUpdate();
+        const dailyUsage = yield dailyUsageDoa.insertOrUpdate();
+        socket_1.default.getIo().emit("usageCount", dailyUsage);
         res.status(201).json({ message: "Updated Item", error: false });
     }
     catch (e) {

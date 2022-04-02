@@ -47,7 +47,7 @@ class SanitizerLevelDAO {
     getLevelHistory(page = 1, resultsCount = 20, startDate, endDate) {
         return __awaiter(this, void 0, void 0, function* () {
             let filter = {};
-            let sort = { date: 1 };
+            let sort = { date: -1 };
             if (startDate && endDate) {
                 if (startDate > endDate) {
                     throw new Error("End date must be greater than or equal to start date");
@@ -57,11 +57,6 @@ class SanitizerLevelDAO {
                     endDate.setDate(endDate.getDate() + 1);
                 }
                 filter = { date: { $gte: startDate, $lte: endDate } };
-            }
-            else {
-                if (resultsCount == 1) {
-                    sort = { date: -1 };
-                }
             }
             const cursor = this.db
                 .find(filter)

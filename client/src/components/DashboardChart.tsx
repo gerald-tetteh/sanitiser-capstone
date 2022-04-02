@@ -125,15 +125,6 @@ const DashboardChart: FunctionComponent = () => {
     setShowDaily(false);
   };
 
-  dataProvider?.socket.on("sanitizerLevel", (data: SanitizerLevel) => {
-    // const date = new Date(data.date).toLocaleDateString();
-    // console.log(...sanitizerLevel.slice(1));
-    // console.log(sanitizerLevel.slice(1));
-    console.log(sanitizerLevel);
-    // setSanitizerLevel([...sanitizerLevel.slice(1), data.percentage]);
-    // setSanitizerLevelLabels([...sanitizerLevelLabels.slice(1), date]);
-  });
-
   useEffect(() => {
     fetch(`${USAGE_URL}`)
       .then((response) => {
@@ -148,7 +139,7 @@ const DashboardChart: FunctionComponent = () => {
         setDailyUsage(dailyUsage);
       })
       .catch((err) => console.error(err));
-    fetch(`${S_LEVEL_URL}`)
+    fetch(`${S_LEVEL_URL}?resultsCount=15`)
       .then((response) => {
         return response.json();
       })
@@ -156,12 +147,57 @@ const DashboardChart: FunctionComponent = () => {
         const sanitizerLevelLabels = data.map((level) => {
           return new Date(level.date).toLocaleDateString();
         });
-        const sanitizerLevel = data.map((level) => level.percentage);
+        const sanitizerLevel = data.reverse().map((level) => level.percentage);
         setSanitizerLevel(sanitizerLevel);
         setSanitizerLevelLabels(sanitizerLevelLabels);
       })
       .catch((err) => console.error(err));
-  }, []);
+    dataProvider?.socket?.on("sanitizerLevel", (data: SanitizerLevel) => {
+      setSanitizerLevel((levels) => {
+        const updatedLevels = [...levels];
+        if (updatedLevels.length >= 10) {
+          updatedLevels.shift();
+          updatedLevels.push(data.percentage);
+        } else {
+          updatedLevels.push(data.percentage);
+        }
+        return updatedLevels;
+      });
+      setSanitizerLevelLabels((labels) => {
+        const updatedLabels = [...labels];
+        const date = new Date(data.date).toLocaleDateString();
+        if (updatedLabels.length >= 10) {
+          updatedLabels.shift();
+          updatedLabels.push(date);
+        } else {
+          updatedLabels.push(date);
+        }
+        return updatedLabels;
+      });
+    });
+    dataProvider?.socket?.on("usageCount", (data: DailyUsage) => {
+      const date = new Date(data.date).toLocaleDateString();
+      setDailyUsageLabels((labels) => {
+        const updatedLabels = [...labels];
+        setDailyUsage((usage) => {
+          const updatedUsage = [...usage];
+          if (date !== updatedLabels[updatedLabels.length - 1]) {
+            if (updatedLabels.length === 11) {
+              updatedLabels.shift();
+              updatedUsage.shift();
+            }
+            updatedLabels.push(date);
+            updatedUsage.push(data.useCount);
+          } else {
+            updatedLabels[updatedLabels.length - 1] += 1;
+            updatedUsage[updatedUsage.length - 1] += 1;
+          }
+          return updatedUsage;
+        });
+        return updatedLabels;
+      });
+    });
+  }, [dataProvider?.socket]);
 
   return (
     <article className="dashboard__analysis__chart">

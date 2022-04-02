@@ -1,28 +1,22 @@
 import { Server } from "socket.io";
+import { DailyUsage } from "../db/daily-usage-dao";
 import { SanitizerLevel } from "../db/sanitizer-level-dao";
 
 interface ServerToClientEvents {
   sanitizerLevel: (sanitizerLevel: SanitizerLevel) => void;
+  usageCount: (count: DailyUsage) => void;
 }
-
 interface ClientToServerEvents {
   hello: () => void;
 }
-
 interface InterServerEvents {
   ping: () => void;
-}
-
-interface SocketData {
-  name: string;
-  age: number;
 }
 
 type SocketType = Server<
   ClientToServerEvents,
   ServerToClientEvents,
-  InterServerEvents,
-  SocketData
+  InterServerEvents
 >;
 
 let io: SocketType;

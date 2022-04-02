@@ -11,7 +11,7 @@ import {
   S_LEVEL_URL,
   USAGE_API_URL,
 } from "../utils/constants";
-import { SanitizerLevel, UserNotification } from "../utils/types";
+import { DailyUsage, SanitizerLevel, UserNotification } from "../utils/types";
 
 type HeaderTileProps = {
   title: string;
@@ -64,7 +64,13 @@ const DashboardHeader: FunctionComponent = () => {
         setNotificationCount(notifications.length);
       })
       .catch((err) => console.error(err));
-  }, []);
+    dataProvider?.socket?.on("sanitizerLevel", (data: SanitizerLevel) => {
+      setSanitizerLevel(data);
+    });
+    dataProvider?.socket?.on("usageCount", (data: DailyUsage) => {
+      setUsageCount(data.useCount);
+    });
+  }, [dataProvider?.socket]);
   return (
     <section className="dashboard__header">
       <DashboardHeaderTile

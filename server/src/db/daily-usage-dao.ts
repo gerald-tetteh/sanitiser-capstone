@@ -96,16 +96,24 @@ class DailyUsageDAO {
     const todayDate = this.getTodayDate();
     const usageData = await this.db.findOne({ date: todayDate });
     if (usageData) {
-      await this.db.updateOne(
+      await this.db.findOneAndUpdate(
         { _id: usageData._id },
         { $set: { useCount: usageData.useCount + 1 } }
       );
+      return {
+        date: usageData.date,
+        useCount: usageData.useCount + 1,
+      };
     } else {
       await this.db.insertOne({
         date: todayDate,
         useCount: 1,
       });
     }
+    return {
+      date: todayDate,
+      useCount: 1,
+    };
   }
   /**
    * Delete usage data entry
