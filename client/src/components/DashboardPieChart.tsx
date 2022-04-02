@@ -4,15 +4,17 @@
  * AHSM Client - DashboardAnalysis.tsx
  */
 
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { USAGE_URL } from "../utils/constants";
 import { DailyUsage } from "../utils/types";
+import { DataContext } from "../providers/DataProvider";
 
 Chart.register(...registerables);
 
 const DashboardPieChart: FunctionComponent = () => {
+  const dataProvider = useContext(DataContext);
   const [weekDayUsage, setWeekDayUsage] = useState<number[]>([]);
   const daysOfTheWeek = [
     "Sunday",
@@ -36,7 +38,7 @@ const DashboardPieChart: FunctionComponent = () => {
     }
     return weekDayCount;
   };
-  useEffect(() => {
+  const fetchData = () => {
     fetch(
       `${USAGE_URL}?startDate=${startDateString}&endDate=${endDate}&resultsCount=30`
     )
@@ -45,6 +47,12 @@ const DashboardPieChart: FunctionComponent = () => {
         setWeekDayUsage(handleParseUsageData(data));
       })
       .catch((err) => console.error(err));
+  };
+  useEffect(() => {
+    fetchData();
+    dataProvider?.socket?.on("usageCount", (_) => {
+      fetchData();
+    });
   }, []);
   // TODO: check for errors
   return (

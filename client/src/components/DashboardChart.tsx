@@ -182,6 +182,7 @@ const DashboardChart: FunctionComponent = () => {
         setDailyUsage((usage) => {
           const updatedUsage = [...usage];
           if (date !== updatedLabels[updatedLabels.length - 1]) {
+            console.log("here");
             if (updatedLabels.length === 11) {
               updatedLabels.shift();
               updatedUsage.shift();
