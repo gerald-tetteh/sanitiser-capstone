@@ -76,7 +76,11 @@ const DashboardHeader: FunctionComponent = () => {
             ? new Date(sanitizerLevel.date).toLocaleTimeString()
             : "Loading..."
         }
-        value={sanitizerLevel != null ? `${sanitizerLevel.percentage}%` : "..."}
+        value={
+          sanitizerLevel != null
+            ? `${Math.floor(sanitizerLevel.percentage)}%`
+            : "..."
+        }
       />
       <DashboardHeaderTile
         title="Usage Count"
