@@ -20,6 +20,23 @@
  * Ashesi Final Year Capstone
  * AHSM Client - mixins.scss
 */
+/*
+0 - 600px: Phone
+600 - 900px: Tablet portrait
+900 - 1200px: Tablet portrait
+[1200 - 1800px] normal styles
+1800px + Big desktop 
+
+$breakpoint argument choices
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER: Base + typography  > general layout + grid > page layout > components
+
+1em = 16px
+*/
 /**
  * Author: Gerald Addo-Tetteh
  * Ashesi Final Year Capstone
@@ -106,6 +123,10 @@ button {
   grid-template-rows: auto;
   gap: 2rem;
   height: calc(100vh - 3rem); }
+  @media (max-width: 75em) {
+    .main {
+      grid-template-columns: minmax(min-content, 1fr);
+      grid-template-rows: max-content minmax(min-content, 1fr); } }
   .main__content {
     overflow: auto;
     background-color: #2d4263; }
@@ -157,6 +178,12 @@ button {
   border-radius: 5px;
   position: relative;
   transition: all 0.3s; }
+  @media (max-width: 75em) {
+    .sidebar {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between; } }
   .sidebar__icon {
     display: inline-block;
     height: 7rem;
@@ -166,10 +193,17 @@ button {
     margin-top: 3rem;
     display: flex;
     flex-direction: column; }
+    @media (max-width: 75em) {
+      .sidebar__nav {
+        flex-direction: row;
+        margin-top: 0; } }
     .sidebar__nav__link {
       margin-block: 2rem;
       display: flex;
       align-items: center; }
+      @media (max-width: 75em) {
+        .sidebar__nav__link {
+          margin-inline: 1rem; } }
       .sidebar__nav__link span:first-of-type {
         margin-right: 0.5rem;
         color: #c84b31; }
@@ -186,6 +220,9 @@ button {
       left: 50%;
       transform: translateX(-50%) rotate(180deg);
       cursor: pointer; }
+      @media (max-width: 75em) {
+        .sidebar__nav__expand-btn {
+          display: none; } }
 
 .shrink-sidebar nav a span:last-of-type {
   width: 0;

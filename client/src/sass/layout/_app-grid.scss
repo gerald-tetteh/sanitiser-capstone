@@ -9,6 +9,10 @@
   grid-template-rows: auto;
   gap: 2rem;
   height: calc(100vh - 3rem);
+  @include respond(tab-land) {
+    grid-template-columns: minmax(min-content, 1fr);
+    grid-template-rows: max-content minmax(min-content, 1fr);
+  }
 
   &__content {
     overflow: auto;
