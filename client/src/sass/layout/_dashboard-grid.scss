@@ -10,6 +10,10 @@
     grid-template-columns: repeat(3, minmax(min-content, 1fr));
     grid-template-rows: repeat(7, 1fr);
     gap: 1rem;
+    @include respond(tab-port) {
+      grid-template-rows: repeat(10, min-content);
+      grid-auto-rows: min-content;
+    }
   }
   &__header {
     grid-row: 1 / 2;
@@ -18,10 +22,16 @@
   &__analysis {
     grid-column: 1 / -1;
     grid-row: 2 / 6;
+    @include respond(tab-port) {
+      grid-row: 2 / 9;
+    }
   }
   &__notification {
     grid-column: 1 / -1;
     grid-row: 6 / 8;
+    @include respond(tab-port) {
+      grid-row: 9 / 11;
+    }
   }
   &__analysis {
     display: grid;
@@ -32,9 +42,16 @@
     &__chart {
       grid-column: 1 / 3;
       grid-row: 1 / 5;
+      @include respond(tab-port) {
+        grid-column: 1 / 4;
+      }
     }
     &__pie-chart {
       grid-row: 1 / 5;
+      @include respond(tab-port) {
+        grid-row: 5 / 8;
+        grid-column: 2 / 3;
+      }
     }
   }
 }

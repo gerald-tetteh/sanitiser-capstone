@@ -50,6 +50,9 @@
         color: $color-white;
         font-weight: 600;
         font-size: 2rem;
+        @include respond(phone) {
+          display: none;
+        }
       }
     }
     &__expand-btn {
