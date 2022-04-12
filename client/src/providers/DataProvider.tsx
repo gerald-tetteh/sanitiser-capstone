@@ -28,7 +28,7 @@ const DataStore = ({ children }: DataStoreProps) => {
     setNotifications,
   };
   useEffect(() => {
-    setSocket(io("https://smart-sanitizer.herokuapp.com"));
+    setSocket(io(process.env.REACT_APP_SERVER as string));
   }, []);
   useEffect(() => {
     socket?.on("notification", (data: UserNotification) => {
