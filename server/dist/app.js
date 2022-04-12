@@ -40,7 +40,7 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
         const server = app.listen(process.env.PORT);
         const io = new socket_io_1.Server(server, {
             cors: {
-                origin: "http://localhost:3001",
+                origin: "*",
             },
         });
         socket_1.default.setIO(io);
