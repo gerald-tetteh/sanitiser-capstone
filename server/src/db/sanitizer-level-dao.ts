@@ -71,7 +71,8 @@ class SanitizerLevelDAO {
       .skip(resultsCount * (page - 1))
       .sort(sort)
       .limit(resultsCount);
-    return cursor.toArray();
+    const totalResults = await this.db.countDocuments(filter);
+    return [await cursor.toArray(), totalResults];
   }
   /**
    * Insert sanitizer level into collection

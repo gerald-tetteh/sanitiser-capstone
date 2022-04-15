@@ -16,8 +16,8 @@ const DailyUsagePage: FunctionComponent = () => {
     fetch(`${USAGE_URL}?page=${pageNumber}`)
       .then((response) => response.json())
       .then((data: DailyUsagePagination) => {
-        setDailyUsage(data[0] as DailyUsage[]);
-        setTotalResults(data[1] as number);
+        setDailyUsage(data[0]);
+        setTotalResults(data[1]);
       });
   }, []);
   return (

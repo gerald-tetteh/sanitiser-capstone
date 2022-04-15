@@ -17,6 +17,7 @@ import {
   DailyUsage,
   DailyUsagePagination,
   SanitizerLevel,
+  SanitizerLevelPagination,
 } from "../utils/types";
 import { S_LEVEL_URL, USAGE_URL } from "../utils/constants";
 import { DataContext } from "../providers/DataProvider";
@@ -135,7 +136,7 @@ const DashboardChart: FunctionComponent = () => {
         return response.json();
       })
       .then((data: DailyUsagePagination) => {
-        const dailyUsageList = data[0] as DailyUsage[];
+        const dailyUsageList = data[0];
         const dailyUsageLabels = dailyUsageList.map((usage) => {
           return new Date(usage.date).toLocaleDateString();
         });
@@ -148,11 +149,14 @@ const DashboardChart: FunctionComponent = () => {
       .then((response) => {
         return response.json();
       })
-      .then((data: SanitizerLevel[]) => {
-        const sanitizerLevelLabels = data.map((level) => {
+      .then((data: SanitizerLevelPagination) => {
+        const sanitizerLevelList = data[0];
+        const sanitizerLevelLabels = sanitizerLevelList.map((level) => {
           return new Date(level.date).toLocaleDateString();
         });
-        const sanitizerLevel = data.reverse().map((level) => level.percentage);
+        const sanitizerLevel = sanitizerLevelList
+          .reverse()
+          .map((level) => level.percentage);
         setSanitizerLevel(sanitizerLevel);
         setSanitizerLevelLabels(sanitizerLevelLabels);
       })

@@ -63,7 +63,8 @@ class SanitizerLevelDAO {
                 .skip(resultsCount * (page - 1))
                 .sort(sort)
                 .limit(resultsCount);
-            return cursor.toArray();
+            const totalResults = yield this.db.countDocuments(filter);
+            return [yield cursor.toArray(), totalResults];
         });
     }
     /**

@@ -26,4 +26,5 @@ export type UserNotification = {
   percentage: number;
   handled: boolean;
 };
-export type DailyUsagePagination = (DailyUsage[] | number)[];
+export type DailyUsagePagination = [DailyUsage[], number];
+export type SanitizerLevelPagination = [SanitizerLevel[], number];

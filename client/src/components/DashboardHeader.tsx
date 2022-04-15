@@ -11,7 +11,12 @@ import {
   S_LEVEL_URL,
   USAGE_API_URL,
 } from "../utils/constants";
-import { DailyUsage, SanitizerLevel, UserNotification } from "../utils/types";
+import {
+  DailyUsage,
+  SanitizerLevel,
+  SanitizerLevelPagination,
+  UserNotification,
+} from "../utils/types";
 
 type HeaderTileProps = {
   title: string;
@@ -44,8 +49,8 @@ const DashboardHeader: FunctionComponent = () => {
   useEffect(() => {
     fetch(`${S_LEVEL_URL}?resultsCount=1`)
       .then((response) => response.json())
-      .then((data: SanitizerLevel[]) => {
-        setSanitizerLevel(data[0]);
+      .then((data: SanitizerLevelPagination) => {
+        setSanitizerLevel(data[0][0]); // array in an array
       })
       .catch((err) => console.error(err));
     fetch(`${USAGE_API_URL}`)
