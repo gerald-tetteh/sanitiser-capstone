@@ -5,6 +5,7 @@
  */
 
 import { FunctionComponent, useEffect, useState } from "react";
+import TableLayout from "../components/TableLayout";
 import { USAGE_URL } from "../utils/constants";
 import { DailyUsage, DailyUsagePagination } from "../utils/types";
 
@@ -19,41 +20,19 @@ const DailyUsagePage: FunctionComponent = () => {
         setDailyUsage(data[0]);
         setTotalResults(data[1]);
       });
-  }, []);
+  }, [pageNumber]);
+  const disableNextButton = !(totalResults - pageNumber * 20 > 0);
+  const hidePreviousButton = pageNumber < 2;
   return (
     <div className="daily-usage">
-      <table className="table">
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Date</th>
-            <th>Usage Count</th>
-          </tr>
-        </thead>
-        <tbody className="table__body">
-          {dailyUsage.length > 0 &&
-            dailyUsage.map((item, index) => {
-              return (
-                <tr key={item._id}>
-                  <td>{index + 1}</td>
-                  <td>{new Date(item.date).toDateString()}</td>
-                  <td>{item.useCount}</td>
-                </tr>
-              );
-            })}
-          {dailyUsage.length < 0 && <p>Loading...</p>}
-        </tbody>
-      </table>
-      {totalResults - pageNumber * 20 > 20 && (
-        <div className="table__pagination-bar">
-          <button
-            onClick={() => setPageNumber((pageNumber) => pageNumber + 1)}
-            className="table__pagination-bar__button"
-          >
-            NEXT
-          </button>
-        </div>
-      )}
+      <TableLayout
+        disableNextButton={disableNextButton}
+        hidePreviousButton={hidePreviousButton}
+        itemList={dailyUsage}
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+        isDailyUsage={true}
+      />
     </div>
   );
 };

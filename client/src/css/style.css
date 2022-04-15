@@ -264,7 +264,7 @@ button {
   transform: translateX(-50%) rotate(0deg); }
 
 .table {
-  margin-top: 2rem;
+  margin-block: 2rem;
   width: 100%;
   text-align: center;
   background-color: #fefefe;
@@ -290,12 +290,12 @@ button {
     .table__body tr:nth-child(even) {
       background-color: #cbcbcb; }
   .table__pagination-bar {
-    margin-block: 1.5rem;
+    margin-bottom: 1.5rem;
     background-color: #343a40;
     padding: 1rem 2rem;
     border-radius: 5px;
     display: flex;
-    justify-content: right; }
+    justify-content: space-between; }
     .table__pagination-bar__button {
       padding: 0.5rem 4rem;
       border-radius: 5px;
@@ -311,6 +311,11 @@ button {
         transform: translateY(-3px); }
       .table__pagination-bar__button:active {
         transform: translateY(0); }
+      .table__pagination-bar__button--disabled {
+        background-color: gray; }
+        .table__pagination-bar__button--disabled:hover {
+          cursor: not-allowed;
+          transform: none; }
 
 /**
  * Author: Gerald Addo-Tetteh
@@ -426,6 +431,17 @@ button {
   margin-inline: auto; }
   @media (max-width: 56.25em) {
     .daily-usage {
+      max-width: 600px;
+      min-width: 200px;
+      width: 90%;
+      overflow-x: auto; } }
+
+.sanitizer-level {
+  max-width: 700px;
+  width: 100%;
+  margin-inline: auto; }
+  @media (max-width: 56.25em) {
+    .sanitizer-level {
       max-width: 600px;
       min-width: 200px;
       width: 90%;
