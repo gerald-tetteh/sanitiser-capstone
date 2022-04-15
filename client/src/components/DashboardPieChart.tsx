@@ -8,7 +8,7 @@ import { FunctionComponent, useContext, useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { USAGE_URL } from "../utils/constants";
-import { DailyUsage } from "../utils/types";
+import { DailyUsage, DailyUsagePagination } from "../utils/types";
 import { DataContext } from "../providers/DataProvider";
 
 Chart.register(...registerables);
@@ -43,8 +43,8 @@ const DashboardPieChart: FunctionComponent = () => {
       `${USAGE_URL}?startDate=${startDateString}&endDate=${endDate}&resultsCount=30`
     )
       .then((response) => response.json())
-      .then((data: DailyUsage[]) => {
-        setWeekDayUsage(handleParseUsageData(data));
+      .then((data: DailyUsagePagination) => {
+        setWeekDayUsage(handleParseUsageData(data[0] as DailyUsage[]));
       })
       .catch((err) => console.error(err));
   };

@@ -26,3 +26,4 @@ export type UserNotification = {
   percentage: number;
   handled: boolean;
 };
+export type DailyUsagePagination = (DailyUsage[] | number)[];

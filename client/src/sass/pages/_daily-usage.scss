@@ -1,0 +1,12 @@
+.daily-usage {
+  max-width: 700px;
+  width: 100%;
+  margin-inline: auto;
+
+  @include respond(tab-port) {
+    max-width: 600px;
+    min-width: 200px;
+    width: 90%;
+    overflow-x: auto;
+  }
+}

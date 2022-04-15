@@ -6,8 +6,8 @@
 
 import { FunctionComponent } from "react";
 
-const SanitizerLevel: FunctionComponent = () => {
+const SanitizerLevelPage: FunctionComponent = () => {
   return <div className="sanitizer-level">Sanitizer Level</div>;
 };
 
-export default SanitizerLevel;
+export default SanitizerLevelPage;

@@ -53,7 +53,7 @@ class DailyUsageDAO {
    * @param resultsCount - the number of results to show per page defaults to 20
    * @param startDate - The starting date of the filter
    * @param endDate - The end date of the filter
-   * @returns A promise - An array of the usage data
+   * @returns A promise - An array of the usage data and total number of results
    */
   async getUsageHistory(
     this: DailyUsageDAO,
@@ -78,7 +78,8 @@ class DailyUsageDAO {
       .skip(resultsCount * (page - 1))
       .sort({ date: 1 })
       .limit(resultsCount);
-    return cursor.toArray();
+    const totalQueryResults = await this.db.countDocuments(filter);
+    return [await cursor.toArray(), totalQueryResults];
   }
   /**
    * Gets the usage data fro the current day

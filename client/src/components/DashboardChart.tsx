@@ -13,7 +13,11 @@ import {
   useRef,
   useState,
 } from "react";
-import { DailyUsage, SanitizerLevel } from "../utils/types";
+import {
+  DailyUsage,
+  DailyUsagePagination,
+  SanitizerLevel,
+} from "../utils/types";
 import { S_LEVEL_URL, USAGE_URL } from "../utils/constants";
 import { DataContext } from "../providers/DataProvider";
 
@@ -130,11 +134,12 @@ const DashboardChart: FunctionComponent = () => {
       .then((response) => {
         return response.json();
       })
-      .then((data: DailyUsage[]) => {
-        const dailyUsageLabels = data.map((usage) => {
+      .then((data: DailyUsagePagination) => {
+        const dailyUsageList = data[0] as DailyUsage[];
+        const dailyUsageLabels = dailyUsageList.map((usage) => {
           return new Date(usage.date).toLocaleDateString();
         });
-        const dailyUsage = data.map((usage) => usage.useCount);
+        const dailyUsage = dailyUsageList.map((usage) => usage.useCount);
         setDailyUsageLabels(dailyUsageLabels);
         setDailyUsage(dailyUsage);
       })
