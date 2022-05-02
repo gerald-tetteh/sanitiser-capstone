@@ -9,10 +9,19 @@ import SanitizerLevelDAO from "../db/sanitizer-level-dao";
 import DailyUsageDAO from "../db/daily-usage-dao";
 import NotificationDAO from "../db/notification-dao";
 import socket from "../utils/socket";
+import { createTransport } from "nodemailer";
 
 const sanitizerLevelDao = new SanitizerLevelDAO();
 const dailyUsageDoa = new DailyUsageDAO();
 const notificationDao = new NotificationDAO();
+
+const transporter = createTransport({
+  service: "SendinBlue",
+  auth: {
+    user: "addodevelop@gmail.com",
+    pass: process.env.MAIL_PASS,
+  },
+});
 
 /**
  * Inserts the sanitizer level into the sanitizer level collection
@@ -66,7 +75,6 @@ export const getUsageCount: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
-// TODO: Add socket.io and mail service
 /**
  * Inserts notification into notification collection and sends
  * an email to the user.
@@ -77,11 +85,29 @@ export const postNotification: RequestHandler = async (req, res, next) => {
       percentage: number;
       priority: number;
     };
-    await notificationDao.insert({
+    const completeNotification = {
       date: new Date(),
       percentage: notification.percentage,
       priority: notification.priority,
       handled: false,
+    };
+    await notificationDao.insert(completeNotification);
+    socket.getIo().emit("notification", completeNotification);
+    transporter.sendMail({
+      subject: "Refill Sanitiser!",
+      from: "AHSM@Capstone",
+      to: "geraldadt@outlook.com",
+      html: `
+      <p>Hello There,</p>
+      <p>The sanitiser level is low and needs to refilled</p>
+      <p>Sanitiser Level: <strong>${notification.percentage}%</strong></p>
+      <p>
+        Regards,<br />
+        AHSM@Capstone.
+      </p>
+      <p>This is an automated notification.</p>
+      `,
+      replyTo: "no-reply@AHSM",
     });
     // socket.io
     // email

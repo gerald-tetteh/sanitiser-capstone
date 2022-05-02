@@ -22,9 +22,17 @@ const sanitizer_level_dao_1 = __importDefault(require("../db/sanitizer-level-dao
 const daily_usage_dao_1 = __importDefault(require("../db/daily-usage-dao"));
 const notification_dao_1 = __importDefault(require("../db/notification-dao"));
 const socket_1 = __importDefault(require("../utils/socket"));
+const nodemailer_1 = require("nodemailer");
 const sanitizerLevelDao = new sanitizer_level_dao_1.default();
 const dailyUsageDoa = new daily_usage_dao_1.default();
 const notificationDao = new notification_dao_1.default();
+const transporter = (0, nodemailer_1.createTransport)({
+    service: "SendinBlue",
+    auth: {
+        user: "addodevelop@gmail.com",
+        pass: process.env.MAIL_PASS,
+    },
+});
 /**
  * Inserts the sanitizer level into the sanitizer level collection
  */
@@ -84,7 +92,6 @@ const getUsageCount = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getUsageCount = getUsageCount;
-// TODO: Add socket.io and mail service
 /**
  * Inserts notification into notification collection and sends
  * an email to the user.
@@ -92,11 +99,29 @@ exports.getUsageCount = getUsageCount;
 const postNotification = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const notification = req.body;
-        yield notificationDao.insert({
+        const completeNotification = {
             date: new Date(),
             percentage: notification.percentage,
             priority: notification.priority,
             handled: false,
+        };
+        yield notificationDao.insert(completeNotification);
+        socket_1.default.getIo().emit("notification", completeNotification);
+        transporter.sendMail({
+            subject: "Refill Sanitiser!",
+            from: "AHSM@Capstone",
+            to: "geraldadt@outlook.com",
+            html: `
+      <p>Hello There,</p>
+      <p>The sanitiser level is low and needs to refilled</p>
+      <p>Sanitiser Level: <strong>${notification.percentage}%</strong></p>
+      <p>
+        Regards,<br />
+        AHSM@Capstone.
+      </p>
+      <p>This is an automated notification.</p>
+      `,
+            replyTo: "no-reply@AHSM",
         });
         // socket.io
         // email
