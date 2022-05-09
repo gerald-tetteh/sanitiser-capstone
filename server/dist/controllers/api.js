@@ -104,13 +104,16 @@ const postNotification = (req, res, next) => __awaiter(void 0, void 0, void 0, f
             percentage: notification.percentage,
             priority: notification.priority,
             handled: false,
+            email: notification.email,
         };
         yield notificationDao.insert(completeNotification);
+        // socket.io
         socket_1.default.getIo().emit("notification", completeNotification);
+        // email
         transporter.sendMail({
             subject: "Refill Sanitiser!",
             from: "AHSM@Capstone",
-            to: "geraldadt@outlook.com",
+            to: notification.email,
             html: `
       <p>Hello There,</p>
       <p>The sanitiser level is low and needs to refilled</p>
@@ -123,8 +126,6 @@ const postNotification = (req, res, next) => __awaiter(void 0, void 0, void 0, f
       `,
             replyTo: "no-reply@AHSM",
         });
-        // socket.io
-        // email
         res.status(201).json({ message: "Inserted Item", error: false });
     }
     catch (e) {

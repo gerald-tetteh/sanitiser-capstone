@@ -25,6 +25,7 @@ export type UserNotification = {
   priority: Priority;
   percentage: number;
   handled: boolean;
+  email: string;
 };
 export type DailyUsagePagination = [DailyUsage[], number];
 export type SanitizerLevelPagination = [SanitizerLevel[], number];

@@ -27,6 +27,7 @@ export interface Notification {
   priority: Priority;
   percentage: number;
   handled: boolean;
+  email: string;
 }
 
 let notificationDB: Collection<Notification>;
