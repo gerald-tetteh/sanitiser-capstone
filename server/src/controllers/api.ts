@@ -97,10 +97,10 @@ export const postNotification: RequestHandler = async (req, res, next) => {
     // socket.io
     socket.getIo().emit("notification", completeNotification);
     // email
-    transporter.sendMail({
+    await transporter.sendMail({
       subject: "Refill Sanitiser!",
       from: "AHSM@Capstone",
-      to: notification.email,
+      to: notification.email ?? "geraldadt@outlook.com",
       html: `
       <p>Hello There,</p>
       <p>The sanitiser level is low and needs to refilled</p>

@@ -97,6 +97,7 @@ exports.getUsageCount = getUsageCount;
  * an email to the user.
  */
 const postNotification = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         const notification = req.body;
         const completeNotification = {
@@ -110,10 +111,10 @@ const postNotification = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         // socket.io
         socket_1.default.getIo().emit("notification", completeNotification);
         // email
-        transporter.sendMail({
+        yield transporter.sendMail({
             subject: "Refill Sanitiser!",
             from: "AHSM@Capstone",
-            to: notification.email,
+            to: (_a = notification.email) !== null && _a !== void 0 ? _a : "geraldadt@outlook.com",
             html: `
       <p>Hello There,</p>
       <p>The sanitiser level is low and needs to refilled</p>
